@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>libhuman</name>
+  <version>0.1.0</version>
+  <description>C++ library for simulating a human based on DART</description>
+  <maintainer email="sniyaz@cs.uw.edu">Sherdil Niyaz</maintainer>
+  <author email="sniyaz@cs.uw.edu">Sherdil Niyaz</author>
+  <license>UNRELEASED</license>
+  <depend>dartsim</depend>
+  <depend>eigen</depend>
+  <depend>aikido</depend>
+  <depend>controller_manager_msgs</depend>
+  <depend>roslib</depend>
+  <depend>srdfdom</depend>
+  <depend>urdf</depend>
+
+  <!-- Workaround to build DART with optional features enabled. -->
+  <depend>nlopt</depend>
+
+  <doc_depend>doxygen</doc_depend>
+
+  <!-- This is required by REP-136. -->
+  <exec_depend>catkin</exec_depend>
+  <buildtool_depend>cmake</buildtool_depend>
+  <buildtool_depend>clang-format</buildtool_depend>
+  <buildtool_depend>lcov</buildtool_depend>
+  <export>
+    <build_type>cmake</build_type>
+  </export>
+</package>
