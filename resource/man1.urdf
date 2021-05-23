@@ -1,0 +1,1724 @@
+<?xml version="1.0"?>
+<robot name="man1"
+       xmlns:xi="http://www.w3.org/2001/XInclude">
+  <link name="Hips">
+    <visual>
+      <origin xyz="0 0.8569 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/Hips_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0.8569 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/Hips_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="Chest">
+    <visual>
+      <origin xyz="0 0.0824 -0.0145" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/Chest_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0.0824 -0.0145" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/Chest_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 -2.77556e-17 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LCollar">
+    <visual>
+      <origin xyz="0 0.3917 0.0145" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LCollar_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0.3917 0.0145" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LCollar_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 5.55112e-17 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LShoulder">
+    <visual>
+      <origin xyz="0.1744 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LShoulder_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.1744 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LShoulder_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 5.55112e-17 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LShoulder2">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LShoulder2_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LShoulder2_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 5.55112e-17 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LShoulder3">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LShoulder3_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LShoulder3_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 5.55112e-17 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LForearm">
+    <visual>
+      <origin xyz="0 -0.3102 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LForearm_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.3102 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LForearm_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 5.55112e-17 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LHand">
+    <visual>
+      <origin xyz="0 -0.2617 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LHand_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.2617 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LHand_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 2.22045e-16 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LHand2">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LHand2_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LHand2_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 2.22045e-16 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LHand3">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LHand3_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LHand3_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 2.22045e-16 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LFing10">
+    <visual>
+      <origin xyz="0.0150049 -0.0850973 0.02267" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing10_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0150049 -0.0850973 0.02267" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing10_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="1e-07 3e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LFing11">
+    <visual>
+      <origin xyz="0.00822397 -0.0466405 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing11_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.00822397 -0.0466405 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing11_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="1.3e-07 -2e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LFing12">
+    <visual>
+      <origin xyz="0.004817 -0.0273186 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing12_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.004817 -0.0273186 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing12_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="1.3e-07 4e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LFing20">
+    <visual>
+      <origin xyz="0.0149702 -0.0849003 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing20_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0149702 -0.0849003 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing20_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="-2e-07 3e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LFing21">
+    <visual>
+      <origin xyz="0.00892898 -0.0506388 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing21_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.00892898 -0.0506388 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing21_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="-1.8e-07 1e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LFing22">
+    <visual>
+      <origin xyz="0.00570608 -0.0323608 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing22_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.00570608 -0.0323608 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing22_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="-2.6e-07 -1e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LFing30">
+    <visual>
+      <origin xyz="0.0137286 -0.077859 -0.0186" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing30_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0137286 -0.077859 -0.0186" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing30_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="4e-07 2.22045e-16 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LFing31">
+    <visual>
+      <origin xyz="0.00819098 -0.0464534 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing31_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.00819098 -0.0464534 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing31_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="4.2e-07 4e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LFing32">
+    <visual>
+      <origin xyz="0.00553764 -0.0314055 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing32_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.00553764 -0.0314055 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing32_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="-2.2e-07 -1e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LFing40">
+    <visual>
+      <origin xyz="0.0123516 -0.0700494 -0.0363" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing40_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0123516 -0.0700494 -0.0363" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing40_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="4e-07 4e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LFing41">
+    <visual>
+      <origin xyz="0.00684694 -0.038831 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing41_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.00684694 -0.038831 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing41_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="4.6e-07 4e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LFing42">
+    <visual>
+      <origin xyz="0.0039279 -0.0222763 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing42_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0039279 -0.0222763 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFing42_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="-4.4e-07 -3e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LThumbBase">
+    <visual>
+      <origin xyz="-0.00739791 -0.0156321 0.0177" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LThumbBase_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.00739791 -0.0156321 0.0177" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LThumbBase_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="-9e-08 1e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LThumbBase2">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LThumbBase2_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LThumbBase2_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="-9e-08 1e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LThumb0">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LThumb0_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LThumb0_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="-9e-08 1e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LThumb1">
+    <visual>
+      <origin xyz="0.0081383 -0.046155 0.012558" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LThumb1_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0081383 -0.046155 0.012558" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LThumb1_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="-3.9e-07 1e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LThumb2">
+    <visual>
+      <origin xyz="0.006355 -0.036043 0.0098067" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LThumb2_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.006355 -0.036043 0.0098067" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LThumb2_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="-3.9e-07 1e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="Neck">
+    <visual>
+      <origin xyz="0 0.4352 0.0048" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/Neck_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0.4352 0.0048" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/Neck_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 -1.11022e-16 -3.46945e-18" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="Head">
+    <visual>
+      <origin xyz="0 0.1255 0.0096" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/Head_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0.1255 0.0096" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/Head_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 0 -2.34459e-18" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LeftEye">
+    <visual>
+      <origin xyz="0.029 0.035 0.091" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LeftEye_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.029 0.035 0.091" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LeftEye_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 1.11022e-16 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RightEye">
+    <visual>
+      <origin xyz="-0.03 0.035 0.091" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RightEye_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.03 0.035 0.091" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RightEye_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 1.11022e-16 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RCollar">
+    <visual>
+      <origin xyz="0 0.3917 0.0145" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RCollar_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0.3917 0.0145" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RCollar_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 5.55112e-17 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RShoulder">
+    <visual>
+      <origin xyz="-0.1744 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RShoulder_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.1744 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RShoulder_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 5.55112e-17 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RShoulder2">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RShoulder2_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RShoulder2_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 5.55112e-17 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RShoulder3">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RShoulder3_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RShoulder3_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 5.55112e-17 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RForearm">
+    <visual>
+      <origin xyz="0 -0.3102 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RForearm_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.3102 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RForearm_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 5.55112e-17 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RHand">
+    <visual>
+      <origin xyz="0 -0.2617 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RHand_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.2617 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RHand_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 2.22045e-16 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RHand2">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RHand2_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RHand2_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 2.22045e-16 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RHand3">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RHand3_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RHand3_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 2.22045e-16 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RFing10">
+    <visual>
+      <origin xyz="-0.0150049 -0.0850973 0.02267" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing10_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.0150049 -0.0850973 0.02267" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing10_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="-1e-07 3e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RFing11">
+    <visual>
+      <origin xyz="-0.00822397 -0.0466405 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing11_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.00822397 -0.0466405 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing11_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="-1.3e-07 -2e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RFing12">
+    <visual>
+      <origin xyz="-0.004817 -0.0273186 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing12_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.004817 -0.0273186 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing12_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="-1.3e-07 4e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RFing20">
+    <visual>
+      <origin xyz="-0.0149702 -0.0849003 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing20_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.0149702 -0.0849003 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing20_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="2e-07 3e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RFing21">
+    <visual>
+      <origin xyz="-0.00892898 -0.0506388 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing21_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.00892898 -0.0506388 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing21_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="1.8e-07 1e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RFing22">
+    <visual>
+      <origin xyz="-0.00570608 -0.0323608 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing22_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.00570608 -0.0323608 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing22_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="2.6e-07 -1e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RFing30">
+    <visual>
+      <origin xyz="-0.0137286 -0.077859 -0.0186" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing30_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.0137286 -0.077859 -0.0186" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing30_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="-4e-07 2.22045e-16 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RFing31">
+    <visual>
+      <origin xyz="-0.00819098 -0.0464534 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing31_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.00819098 -0.0464534 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing31_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="-4.2e-07 4e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RFing32">
+    <visual>
+      <origin xyz="-0.00553764 -0.0314055 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing32_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.00553764 -0.0314055 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing32_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="2.2e-07 -1e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RFing40">
+    <visual>
+      <origin xyz="-0.0123516 -0.0700494 -0.0363" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing40_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.0123516 -0.0700494 -0.0363" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing40_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="-4e-07 4e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RFing41">
+    <visual>
+      <origin xyz="-0.00684694 -0.038831 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing41_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.00684694 -0.038831 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing41_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="-4.6e-07 4e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RFing42">
+    <visual>
+      <origin xyz="-0.00392792 -0.0222764 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing42_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.00392792 -0.0222764 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFing42_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="4.6e-07 -2e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RThumbBase">
+    <visual>
+      <origin xyz="0.00739791 -0.0156321 0.0177" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RThumbBase_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.00739791 -0.0156321 0.0177" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RThumbBase_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="9e-08 1e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RThumbBase2">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RThumbBase2_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RThumbBase2_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="9e-08 1e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RThumb0">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RThumb0_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RThumb0_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="9e-08 1e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RThumb1">
+    <visual>
+      <origin xyz="-0.0081383 -0.046155 0.012558" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RThumb1_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.0081383 -0.046155 0.012558" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RThumb1_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="3.9e-07 1e-07 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RThumb2">
+    <visual>
+      <origin xyz="-0.006355 -0.03604 0.009807" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RThumb2_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.006355 -0.03604 0.009807" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RThumb2_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="3.9e-07 1e-07 -6.93889e-18" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LThigh">
+    <visual>
+      <origin xyz="0.0824 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LThigh_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.0824 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LThigh_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LCalf">
+    <visual>
+      <origin xyz="0 -0.3877 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LCalf_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.3877 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LCalf_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LFoot">
+    <visual>
+      <origin xyz="0 -0.4023 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFoot_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.4023 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LFoot_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="LToe">
+    <visual>
+      <origin xyz="0 -0.0387 0.1405" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LToe_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.0387 0.1405" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/LToe_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RThigh">
+    <visual>
+      <origin xyz="-0.0824 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RThigh_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.0824 0 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RThigh_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RCalf">
+    <visual>
+      <origin xyz="0 -0.3877 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RCalf_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.3877 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RCalf_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RFoot">
+    <visual>
+      <origin xyz="0 -0.4023 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFoot_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.4023 0" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RFoot_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="RToe">
+    <visual>
+      <origin xyz="0 -0.0387 0.1405" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RToe_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.0387 0.1405" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///tmp/RToe_mesh.dae" scale="1 1 1" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 0 0" rpy="0 -0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <joint name="JChest" type="revolute">
+    <parent link="Hips"/>
+    <child  link="Chest"/>
+    <origin xyz="0 0.0824 -0.0145" rpy="0 -0 0 "/>
+    <axis   xyz="-1 0 0"/>
+    <limit lower="-2.0944" upper="1.0472" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLCollar" type="revolute">
+    <parent link="Chest"/>
+    <child  link="LCollar"/>
+    <origin xyz="0 0.3917 0.0145" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 -1"/>
+    <limit lower="-0.174533" upper="0.174533" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLShoulder" type="revolute">
+    <parent link="LCollar"/>
+    <child  link="LShoulder"/>
+    <origin xyz="0.1744 0 0" rpy="0 -0 0 "/>
+    <axis   xyz="1 0 0"/>
+    <limit lower="-3.28122" upper="1.06465" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLShoulder2" type="revolute">
+    <parent link="LShoulder"/>
+    <child  link="LShoulder2"/>
+    <origin xyz="0 0 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 -1"/>
+    <limit lower="-2.33874" upper="0.837758" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLShoulder3" type="revolute">
+    <parent link="LShoulder2"/>
+    <child  link="LShoulder3"/>
+    <origin xyz="0 0 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 1 0"/>
+    <limit lower="-1.64061" upper="0.593412" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLForearm" type="revolute">
+    <parent link="LShoulder3"/>
+    <child  link="LForearm"/>
+    <origin xyz="0 -0.3102 0" rpy="0 -0 0 "/>
+    <axis   xyz="1 0 0"/>
+    <limit lower="-2.47837" upper="0.0174533" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLHand" type="revolute">
+    <parent link="LForearm"/>
+    <child  link="LHand"/>
+    <origin xyz="0 -0.2617 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 -1 0"/>
+    <limit lower="-1.3439" upper="1.97222" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLHand2" type="revolute">
+    <parent link="LHand"/>
+    <child  link="LHand2"/>
+    <origin xyz="0 0 0" rpy="0 -0 0 "/>
+    <axis   xyz="-1 0 0"/>
+    <limit lower="-0.820305" upper="0.471239" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLHand3" type="revolute">
+    <parent link="LHand2"/>
+    <child  link="LHand3"/>
+    <origin xyz="0 0 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 1"/>
+    <limit lower="-1.5708" upper="1.41372" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLFing10" type="revolute">
+    <parent link="LHand3"/>
+    <child  link="LFing10"/>
+    <origin xyz="0.0150049 -0.0850973 0.02267" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 -1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLFing11" type="revolute">
+    <parent link="LFing10"/>
+    <child  link="LFing11"/>
+    <origin xyz="0.00822397 -0.0466405 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 -1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLFing12" type="revolute">
+    <parent link="LFing11"/>
+    <child  link="LFing12"/>
+    <origin xyz="0.004817 -0.0273186 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 -1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLFing20" type="revolute">
+    <parent link="LHand3"/>
+    <child  link="LFing20"/>
+    <origin xyz="0.0149702 -0.0849003 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 -1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLFing21" type="revolute">
+    <parent link="LFing20"/>
+    <child  link="LFing21"/>
+    <origin xyz="0.00892898 -0.0506388 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 -1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLFing22" type="revolute">
+    <parent link="LFing21"/>
+    <child  link="LFing22"/>
+    <origin xyz="0.00570608 -0.0323608 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 -1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLFing30" type="revolute">
+    <parent link="LHand3"/>
+    <child  link="LFing30"/>
+    <origin xyz="0.0137286 -0.077859 -0.0186" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 -1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLFing31" type="revolute">
+    <parent link="LFing30"/>
+    <child  link="LFing31"/>
+    <origin xyz="0.00819098 -0.0464534 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 -1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLFing32" type="revolute">
+    <parent link="LFing31"/>
+    <child  link="LFing32"/>
+    <origin xyz="0.00553764 -0.0314055 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 -1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLFing40" type="revolute">
+    <parent link="LHand3"/>
+    <child  link="LFing40"/>
+    <origin xyz="0.0123516 -0.0700494 -0.0363" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 -1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLFing41" type="revolute">
+    <parent link="LFing40"/>
+    <child  link="LFing41"/>
+    <origin xyz="0.00684694 -0.038831 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 -1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLFing42" type="revolute">
+    <parent link="LFing41"/>
+    <child  link="LFing42"/>
+    <origin xyz="0.0039279 -0.0222763 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 -1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLThumbBase" type="revolute">
+    <parent link="LHand3"/>
+    <child  link="LThumbBase"/>
+    <origin xyz="-0.00739791 -0.0156321 0.0177" rpy="0 -0 0 "/>
+    <axis   xyz="-1 0 0"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLThumbBase2" type="revolute">
+    <parent link="LThumbBase"/>
+    <child  link="LThumbBase2"/>
+    <origin xyz="0 0 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 -1 0"/>
+    <limit lower="-1.74533" upper="2.96706" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLThumb0" type="revolute">
+    <parent link="LThumbBase2"/>
+    <child  link="LThumb0"/>
+    <origin xyz="0 0 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 -1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLThumb1" type="revolute">
+    <parent link="LThumb0"/>
+    <child  link="LThumb1"/>
+    <origin xyz="0.0081383 -0.046155 0.012558" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 -1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLThumb2" type="revolute">
+    <parent link="LThumb1"/>
+    <child  link="LThumb2"/>
+    <origin xyz="0.006355 -0.036043 0.0098067" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 -1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JNeck" type="revolute">
+    <parent link="Chest"/>
+    <child  link="Neck"/>
+    <origin xyz="0 0.4352 0.0048" rpy="0 -0 0 "/>
+    <axis   xyz="-1 0 0"/>
+    <limit lower="-1.0472" upper="0.523599" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JHead" type="revolute">
+    <parent link="Neck"/>
+    <child  link="Head"/>
+    <origin xyz="0 0.1255 0.0096" rpy="0 -0 0 "/>
+    <axis   xyz="0 -1 0"/>
+    <limit lower="-1.5708" upper="1.5708" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLeftEye" type="revolute">
+    <parent link="Head"/>
+    <child  link="LeftEye"/>
+    <origin xyz="0.029 0.035 0.091" rpy="0 -0 0 "/>
+    <axis   xyz="0 -1 0"/>
+    <limit lower="-0.610865" upper="0.610865" effort="100000" velocity="4" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRightEye" type="revolute">
+    <parent link="Head"/>
+    <child  link="RightEye"/>
+    <origin xyz="-0.03 0.035 0.091" rpy="0 -0 0 "/>
+    <axis   xyz="0 -1 0"/>
+    <limit lower="-0.610865" upper="0.610865" effort="100000" velocity="4" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRCollar" type="revolute">
+    <parent link="Chest"/>
+    <child  link="RCollar"/>
+    <origin xyz="0 0.3917 0.0145" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 -1"/>
+    <limit lower="-0.174533" upper="0.174533" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRShoulder" type="revolute">
+    <parent link="RCollar"/>
+    <child  link="RShoulder"/>
+    <origin xyz="-0.1744 0 0" rpy="0 -0 0 "/>
+    <axis   xyz="1 0 0"/>
+    <limit lower="-3.28122" upper="1.06465" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRShoulder2" type="revolute">
+    <parent link="RShoulder"/>
+    <child  link="RShoulder2"/>
+    <origin xyz="0 0 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 1"/>
+    <limit lower="-2.33874" upper="0.837758" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRShoulder3" type="revolute">
+    <parent link="RShoulder2"/>
+    <child  link="RShoulder3"/>
+    <origin xyz="0 0 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 -1 0"/>
+    <limit lower="-1.64061" upper="0.593412" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRForearm" type="revolute">
+    <parent link="RShoulder3"/>
+    <child  link="RForearm"/>
+    <origin xyz="0 -0.3102 0" rpy="0 -0 0 "/>
+    <axis   xyz="1 0 0"/>
+    <limit lower="-2.47837" upper="0.0174533" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRHand" type="revolute">
+    <parent link="RForearm"/>
+    <child  link="RHand"/>
+    <origin xyz="0 -0.2617 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 1 0"/>
+    <limit lower="-1.3439" upper="1.97222" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRHand2" type="revolute">
+    <parent link="RHand"/>
+    <child  link="RHand2"/>
+    <origin xyz="0 0 0" rpy="0 -0 0 "/>
+    <axis   xyz="-1 0 0"/>
+    <limit lower="-0.820305" upper="0.471239" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRHand3" type="revolute">
+    <parent link="RHand2"/>
+    <child  link="RHand3"/>
+    <origin xyz="0 0 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 -1"/>
+    <limit lower="-1.5708" upper="1.41372" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRFing10" type="revolute">
+    <parent link="RHand3"/>
+    <child  link="RFing10"/>
+    <origin xyz="-0.0150049 -0.0850973 0.02267" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRFing11" type="revolute">
+    <parent link="RFing10"/>
+    <child  link="RFing11"/>
+    <origin xyz="-0.00822397 -0.0466405 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRFing12" type="revolute">
+    <parent link="RFing11"/>
+    <child  link="RFing12"/>
+    <origin xyz="-0.004817 -0.0273186 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRFing20" type="revolute">
+    <parent link="RHand3"/>
+    <child  link="RFing20"/>
+    <origin xyz="-0.0149702 -0.0849003 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRFing21" type="revolute">
+    <parent link="RFing20"/>
+    <child  link="RFing21"/>
+    <origin xyz="-0.00892898 -0.0506388 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRFing22" type="revolute">
+    <parent link="RFing21"/>
+    <child  link="RFing22"/>
+    <origin xyz="-0.00570608 -0.0323608 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRFing30" type="revolute">
+    <parent link="RHand3"/>
+    <child  link="RFing30"/>
+    <origin xyz="-0.0137286 -0.077859 -0.0186" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRFing31" type="revolute">
+    <parent link="RFing30"/>
+    <child  link="RFing31"/>
+    <origin xyz="-0.00819098 -0.0464534 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRFing32" type="revolute">
+    <parent link="RFing31"/>
+    <child  link="RFing32"/>
+    <origin xyz="-0.00553764 -0.0314055 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRFing40" type="revolute">
+    <parent link="RHand3"/>
+    <child  link="RFing40"/>
+    <origin xyz="-0.0123516 -0.0700494 -0.0363" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRFing41" type="revolute">
+    <parent link="RFing40"/>
+    <child  link="RFing41"/>
+    <origin xyz="-0.00684694 -0.038831 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRFing42" type="revolute">
+    <parent link="RFing41"/>
+    <child  link="RFing42"/>
+    <origin xyz="-0.00392792 -0.0222764 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRThumbBase" type="revolute">
+    <parent link="RHand3"/>
+    <child  link="RThumbBase"/>
+    <origin xyz="0.00739791 -0.0156321 0.0177" rpy="0 -0 0 "/>
+    <axis   xyz="-1 0 0"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRThumbBase2" type="revolute">
+    <parent link="RThumbBase"/>
+    <child  link="RThumbBase2"/>
+    <origin xyz="0 0 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 1 0"/>
+    <limit lower="-2.96706" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRThumb0" type="revolute">
+    <parent link="RThumbBase2"/>
+    <child  link="RThumb0"/>
+    <origin xyz="0 0 0" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRThumb1" type="revolute">
+    <parent link="RThumb0"/>
+    <child  link="RThumb1"/>
+    <origin xyz="-0.0081383 -0.046155 0.012558" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRThumb2" type="revolute">
+    <parent link="RThumb1"/>
+    <child  link="RThumb2"/>
+    <origin xyz="-0.006355 -0.03604 0.009807" rpy="0 -0 0 "/>
+    <axis   xyz="0 0 1"/>
+    <limit lower="-1.74533" upper="1.74533" effort="100000" velocity="2" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLThigh" type="revolute">
+    <parent link="Hips"/>
+    <child  link="LThigh"/>
+    <origin xyz="0.0824 0 0" rpy="0 -0 0 "/>
+    <axis   xyz="-1 0 0"/>
+    <limit lower="-1.0472" upper="2.0944" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLCalf" type="revolute">
+    <parent link="LThigh"/>
+    <child  link="LCalf"/>
+    <origin xyz="0 -0.3877 0" rpy="0 -0 0 "/>
+    <axis   xyz="-1 0 0"/>
+    <limit lower="-2.0944" upper="0.0174533" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLFoot" type="revolute">
+    <parent link="LCalf"/>
+    <child  link="LFoot"/>
+    <origin xyz="0 -0.4023 0" rpy="0 -0 0 "/>
+    <axis   xyz="-1 0 0"/>
+    <limit lower="-1.0472" upper="1.0472" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JLToe" type="revolute">
+    <parent link="LFoot"/>
+    <child  link="LToe"/>
+    <origin xyz="0 -0.0387 0.1405" rpy="0 -0 0 "/>
+    <axis   xyz="-1 0 0"/>
+    <limit lower="-0.523599" upper="0.523599" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRThigh" type="revolute">
+    <parent link="Hips"/>
+    <child  link="RThigh"/>
+    <origin xyz="-0.0824 0 0" rpy="0 -0 0 "/>
+    <axis   xyz="-1 0 0"/>
+    <limit lower="-1.0472" upper="2.0944" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRCalf" type="revolute">
+    <parent link="RThigh"/>
+    <child  link="RCalf"/>
+    <origin xyz="0 -0.3877 0" rpy="0 -0 0 "/>
+    <axis   xyz="-1 0 0"/>
+    <limit lower="-2.0944" upper="0.0174533" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRFoot" type="revolute">
+    <parent link="RCalf"/>
+    <child  link="RFoot"/>
+    <origin xyz="0 -0.4023 0" rpy="0 -0 0 "/>
+    <axis   xyz="-1 0 0"/>
+    <limit lower="-1.0472" upper="1.0472" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+  <joint name="JRToe" type="revolute">
+    <parent link="RFoot"/>
+    <child  link="RToe"/>
+    <origin xyz="0 -0.0387 0.1405" rpy="0 -0 0 "/>
+    <axis   xyz="-1 0 0"/>
+    <limit lower="-0.523599" upper="0.523599" effort="100000" velocity="1" />
+    <dynamics damping="0.2" friction="0" />
+  </joint>
+</robot>
