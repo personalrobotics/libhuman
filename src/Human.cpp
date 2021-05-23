@@ -58,532 +58,146 @@ Human::Human(
   if (!mRobotSkeleton)
   {
     dart::utils::DartLoader urdfLoader;
-    mRobotSkeleton = urdfLoader.parseSkeleton(herbUrdfUri, retriever);
+    mRobotSkeleton = urdfLoader.parseSkeleton(humanUrdfUri, retriever);
     mWorld->addSkeleton(mRobotSkeleton);
   }
 
   if (!mRobotSkeleton)
   {
-    throw std::runtime_error("Unable to load HERB model.");
+    throw std::runtime_error("Unable to load Human model.");
   }
 
-  if (!mSimulation)
-  {
-    if (!node)
-    {
-      mNode = dart::common::make_unique<::ros::NodeHandle>();
-    }
-    else
-    {
-      mNode = dart::common::make_unique<::ros::NodeHandle>(*node);
-    }
-
-    mControllerServiceClient = dart::common::make_unique<::ros::ServiceClient>(
-        mNode->serviceClient<controller_manager_msgs::SwitchController>(
-            "controller_manager/switch_controller"));
-
-    mTalkerActionClient = dart::common::
-        make_unique<actionlib::SimpleActionClient<talker::SayAction>>(
-            "say", true);
-
-    mJointStateClient = dart::common::make_unique<RosJointStateClient>(
-        mRobotSkeleton, *mNode, "/joint_states", 1);
-    mJointStateThread = dart::common::make_unique<ExecutorThread>(
-        std::bind(&RosJointStateClient::spin, mJointStateClient.get()),
-        mRosParams.mJointStateUpdatePeriod);
-    ros::Duration(0.3).sleep(); // first callback at around 0.12 - 0.25 seconds
-  }
-
-  auto collisionDetector = FCLCollisionDetector::create();
-  auto collideWith = collisionDetector->createCollisionGroupAsSharedPtr();
-  auto selfCollisionFilter
-      = std::make_shared<dart::collision::BodyNodeCollisionFilter>();
-
-  // Load in the SRDF and disable collision checking between the pairs
-  // of bodies that it specifies.
-  // TODO: Avoid loading the URDF this second time.
-  // See: https://github.com/personalrobotics/libherb/pull/63.
-  urdf::Model urdfModel;
-  std::string herbUrdfXMLString = retriever->readAll(herbUrdfUri);
-  urdfModel.initString(herbUrdfXMLString);
-
-  srdf::Model srdfModel;
-  std::string herbSrdfXMLString = retriever->readAll(herbSrdfUri);
-  srdfModel.initString(urdfModel, herbSrdfXMLString);
-  auto disabledCollisions = srdfModel.getDisabledCollisionPairs();
-
-  for (auto disabledPair : disabledCollisions)
-  {
-    auto body0 = getBodyNodeOrThrow(mRobotSkeleton, disabledPair.link1_);
-    auto body1 = getBodyNodeOrThrow(mRobotSkeleton, disabledPair.link2_);
-
-#ifndef NDEBUG
-    std::cout << "[INFO] Disabled collisions between " << disabledPair.link1_
-              << " and " << disabledPair.link2_ << std::endl;
-#endif
-
-    selfCollisionFilter->addBodyNodePairToBlackList(body0, body1);
-  }
-
-  mSpace = std::make_shared<MetaSkeletonStateSpace>(mRobotSkeleton.get());
-
-  mTrajectoryExecutor = createTrajectoryExecutor();
-  mNeckPositionExecutor = createNeckPositionExecutor(configureNeck());
-
-  // Setup both arms
-  mLeftArm
-      = configureArm("left", retriever, collisionDetector, selfCollisionFilter);
-  mRightArm = configureArm(
-      "right", retriever, collisionDetector, selfCollisionFilter);
-
-  // Setup robot
-  mRobot = std::make_shared<ConcreteRobot>(
-      name,
-      mRobotSkeleton,
-      mSimulation,
-      cloneRNG(),
-      mTrajectoryExecutor,
-      collisionDetector,
-      selfCollisionFilter);
-
-  // Set up HERB's AIKIDO planner. Right now, we only use the right arm.
-  // TODO: (sniyaz) Include RRT in sequence.
-  // TODO: (sniyaz) Enable bi-manual.
-  auto rightArmStateSpace = mRightArm->getStateSpace();
-  auto rightArmMetaSkeleton = mRightArm->getMetaSkeleton();
-
-  auto snapConfigToConfigPlanner
-      = std::make_shared<SnapConfigurationToConfigurationPlanner>(
-          rightArmStateSpace,
-          std::make_shared<GeodesicInterpolator>(rightArmStateSpace));
-
-  auto dartSnapConfigToConfigPlanner = std::
-      make_shared<ConfigurationToConfiguration_to_ConfigurationToConfiguration>(
-          snapConfigToConfigPlanner, rightArmMetaSkeleton);
-
-  auto snapConfigToTSRPlanner
-      = std::make_shared<ConfigurationToConfiguration_to_ConfigurationToTSR>(
-          snapConfigToConfigPlanner, rightArmMetaSkeleton);
-
-  auto vfpOffsetPlanner
-      = std::make_shared<VectorFieldConfigurationToEndEffectorOffsetPlanner>(
-          rightArmStateSpace,
-          rightArmMetaSkeleton,
-          mPlannerParams.mVfpDistanceTolerance,
-          mPlannerParams.mVfpPositionTolerance,
-          mPlannerParams.mVfpAngularTolerance,
-          mPlannerParams.mVfpInitialStepSize,
-          mPlannerParams.mVfpJointLimitTolerance,
-          mPlannerParams.mCollisionCheckResolution,
-          mPlannerParams.mPlanningTimeout);
-
-  // Create HERB's actual planner, a sequence meta-planner that contains each
-  // of the above stand-alone planners.
-  std::vector<std::shared_ptr<aikido::planner::Planner>> allPlanners = {
-      dartSnapConfigToConfigPlanner, snapConfigToTSRPlanner, vfpOffsetPlanner};
-  mPlanner
-      = std::make_shared<SequenceMetaPlanner>(rightArmStateSpace, allPlanners);
-
-  // Load the named configurations
-  auto namedConfigurations = parseYAMLToNamedConfigurations(
-      aikido::io::loadYAML(namedConfigurationsUri, retriever));
-  mRobot->setNamedConfigurations(namedConfigurations);
-
-  mThread = dart::common::make_unique<ExecutorThread>(
-      std::bind(&Herb::update, this), mRosParams.mThreadExecutionUpdatePeriod);
+  // NOTE: Just try and literally load the URDF for now.
+  std::cout << "LOADED HUMAN URDF YAY :)" << std::endl;
 }
 
 //==============================================================================
-std::future<void> Herb::executeTrajectory(const TrajectoryPtr& trajectory) const
+std::future<void> Human::executeTrajectory(const TrajectoryPtr& trajectory) const
 {
-  return mRobot->executeTrajectory(trajectory);
+  // TODO!
+  throw std::runtime_error("Human -> executeTrajectory() not implemented!");
 }
 
 //==============================================================================
-boost::optional<Eigen::VectorXd> Herb::getNamedConfiguration(
+boost::optional<Eigen::VectorXd> Human::getNamedConfiguration(
     const std::string& name) const
 {
-  return mRobot->getNamedConfiguration(name);
+  // TODO!
+  throw std::runtime_error("Human -> getNamedConfiguration() not implemented!");
 }
 
 //==============================================================================
-void Herb::setNamedConfigurations(
+void Human::setNamedConfigurations(
     std::unordered_map<std::string, const Eigen::VectorXd> namedConfigurations)
 {
-  mRobot->setNamedConfigurations(namedConfigurations);
+  // TODO!
+  throw std::runtime_error("Human -> setNamedConfiguration() not implemented!");
 }
 
 //==============================================================================
-std::string Herb::getName() const
+std::string Human::getName() const
 {
-  return mRobot->getName();
+  // TODO!
+  throw std::runtime_error("Human -> getName() not implemented!");
 }
 
 //==============================================================================
-dart::dynamics::ConstMetaSkeletonPtr Herb::getMetaSkeleton() const
+dart::dynamics::ConstMetaSkeletonPtr Human::getMetaSkeleton() const
 {
-  return mRobot->getMetaSkeleton();
+  // TODO!
+  throw std::runtime_error("Human -> getMetaSkeleton() not implemented!");
 }
 
 //==============================================================================
-ConstMetaSkeletonStateSpacePtr Herb::getStateSpace() const
+ConstMetaSkeletonStateSpacePtr Human::getStateSpace() const
 {
-  return mRobot->getStateSpace();
+  // TODO!
+  throw std::runtime_error("Human -> getStateSpace() not implemented!");
 }
 
 //==============================================================================
-void Herb::setRoot(Robot* robot)
+void Human::setRoot(Robot* robot)
 {
-  mRobot->setRoot(robot);
+  // TODO!
+  throw std::runtime_error("Human -> setRoot() not implemented!");
 }
 
 //==============================================================================
-void Herb::step(const std::chrono::system_clock::time_point& timepoint)
+void Human::step(const std::chrono::system_clock::time_point& timepoint)
 {
-  std::lock_guard<std::mutex> lock(mRobotSkeleton->getMutex());
-  mRobot->step(timepoint);
-  mLeftArm->step(timepoint);
-  mRightArm->step(timepoint);
-  mNeckPositionExecutor->step(timepoint);
-
-  if (!mSimulation && mUpdatePositionFlag)
-  {
-    auto leftArmSkeleton = mLeftArm->getMetaSkeleton();
-    auto rightArmSkeleton = mRightArm->getMetaSkeleton();
-
-    leftArmSkeleton->setPositions(
-        mJointStateClient->getLatestPosition(*leftArmSkeleton));
-    rightArmSkeleton->setPositions(
-        mJointStateClient->getLatestPosition(*rightArmSkeleton));
-  }
+  // TODO!
+  throw std::runtime_error("Human -> step() not implemented!");
 }
 
 //==============================================================================
-CollisionFreePtr Herb::getSelfCollisionConstraint(
+CollisionFreePtr Human::getSelfCollisionConstraint(
     const ConstMetaSkeletonStateSpacePtr& space,
     const dart::dynamics::MetaSkeletonPtr& metaSkeleton) const
 {
-  return mRobot->getSelfCollisionConstraint(space, metaSkeleton);
+  // TODO!
+  throw std::runtime_error("Human -> getSelfCollisionConstraint() not implemented!");
 }
 
 //==============================================================================
-TestablePtr Herb::getFullCollisionConstraint(
+TestablePtr Human::getFullCollisionConstraint(
     const ConstMetaSkeletonStateSpacePtr& space,
     const dart::dynamics::MetaSkeletonPtr& metaSkeleton,
     const CollisionFreePtr& collisionFree) const
 {
-  return mRobot->getFullCollisionConstraint(space, metaSkeleton, collisionFree);
+  // TODO!
+  throw std::runtime_error("Human -> getFullCollisionConstraint() not implemented!");
 }
 
 //==============================================================================
-std::unique_ptr<aikido::common::RNG> Herb::cloneRNG()
+std::unique_ptr<aikido::common::RNG> Human::cloneRNG()
 {
   return std::move(cloneRNGFrom(mRng)[0]);
 }
 
 //==============================================================================
-aikido::planner::WorldPtr Herb::getWorld()
+aikido::planner::WorldPtr Human::getWorld()
 {
   return mWorld;
 }
 
 //==============================================================================
-ConcreteManipulatorPtr Herb::getRightArm()
+ConcreteManipulatorPtr Human::getRightArm()
 {
-  return mRightArm;
+  // TODO!
+  throw std::runtime_error("Human -> getRightArm() not implemented!");
 }
 
 //==============================================================================
-ConcreteManipulatorPtr Herb::getLeftArm()
+ConcreteManipulatorPtr Human::getLeftArm()
 {
-  return mLeftArm;
+  // TODO!
+  throw std::runtime_error("Human -> getLeftArm() not implemented!");
 }
 
 //==============================================================================
-BarrettHandPtr Herb::getRightHand()
+BarrettHandPtr Human::getRightHand()
 {
-  return std::static_pointer_cast<BarrettHand>(mRightArm->getHand());
+  // TODO!
+  throw std::runtime_error("Human -> getRightHand() not implemented!");
 }
 
 //==============================================================================
-BarrettHandPtr Herb::getLeftHand()
+BarrettHandPtr Human::getLeftHand()
 {
-  return std::static_pointer_cast<BarrettHand>(mLeftArm->getHand());
+  // TODO!
+  throw std::runtime_error("Human -> getLeftHand() not implemented!");
 }
 
 //==============================================================================
-void Herb::update()
-{
-  step(std::chrono::system_clock::now());
-}
-
-//==============================================================================
-TrajectoryPtr Herb::planToConfiguration(
-    const MetaSkeletonStateSpacePtr& space,
-    const dart::dynamics::MetaSkeletonPtr& metaSkeleton,
-    const StateSpace::State* goalState,
-    const CollisionFreePtr& collisionFree,
-    double timelimit)
-{
-  return mRobot->planToConfiguration(
-      space, metaSkeleton, goalState, collisionFree, timelimit);
-}
-
-//==============================================================================
-TrajectoryPtr Herb::planToConfiguration(
-    const MetaSkeletonStateSpacePtr& space,
-    const dart::dynamics::MetaSkeletonPtr& metaSkeleton,
-    const Eigen::VectorXd& goal,
-    const CollisionFreePtr& collisionFree,
-    double timelimit)
-{
-  return mRobot->planToConfiguration(
-      space, metaSkeleton, goal, collisionFree, timelimit);
-}
-
-//==============================================================================
-TrajectoryPtr Herb::planToConfigurations(
-    const MetaSkeletonStateSpacePtr& space,
-    const dart::dynamics::MetaSkeletonPtr& metaSkeleton,
-    const std::vector<StateSpace::State*>& goalStates,
-    const CollisionFreePtr& collisionFree,
-    double timelimit)
-{
-  return mRobot->planToConfigurations(
-      space, metaSkeleton, goalStates, collisionFree, timelimit);
-}
-
-//==============================================================================
-TrajectoryPtr Herb::planToConfigurations(
-    const MetaSkeletonStateSpacePtr& space,
-    const dart::dynamics::MetaSkeletonPtr& metaSkeleton,
-    const std::vector<Eigen::VectorXd>& goals,
-    const CollisionFreePtr& collisionFree,
-    double timelimit)
-{
-  return mRobot->planToConfigurations(
-      space, metaSkeleton, goals, collisionFree, timelimit);
-}
-
-//==============================================================================
-TrajectoryPtr Herb::planToTSR(
-    const MetaSkeletonStateSpacePtr& space,
-    const dart::dynamics::MetaSkeletonPtr& metaSkeleton,
-    const dart::dynamics::BodyNodePtr& bn,
-    const TSRPtr& tsr,
-    const CollisionFreePtr& collisionFree,
-    double timelimit,
-    size_t maxNumTrials)
-{
-  return mRobot->planToTSR(
-      space, metaSkeleton, bn, tsr, collisionFree, timelimit, maxNumTrials);
-}
-
-//==============================================================================
-TrajectoryPtr Herb::planToNamedConfiguration(
-    const std::string& name,
-    const CollisionFreePtr& collisionFree,
-    double timelimit)
-{
-  return mRobot->planToNamedConfiguration(name, collisionFree, timelimit);
-}
-
-//==============================================================================
-bool Herb::switchFromGravityCompensationControllersToTrajectoryExecutors()
-{
-  return switchControllers(trajectoryExecutors, gravityCompensationControllers);
-}
-
-//==============================================================================
-bool Herb::switchFromTrajectoryExecutorsToGravityCompensationControllers()
-{
-  return switchControllers(gravityCompensationControllers, trajectoryExecutors);
-}
-
-//==============================================================================
-std::future<void> Herb::setNeckPosition(const Eigen::VectorXd& position)
-{
-  return mNeckPositionExecutor->execute(position);
-}
-
-//==============================================================================
-void Herb::say(const std::string& words)
-{
-  if (!mTalkerActionClient)
-  {
-    ROS_INFO_STREAM("Talker is not instantiated in simulation");
-  }
-  else
-  {
-    mTalkerActionClient->waitForServer();
-    talker::SayGoal goal;
-    goal.text = words;
-    mTalkerActionClient->sendGoal(goal);
-  }
-
-  ROS_INFO_STREAM("HERB says: " << words);
-}
-
-//==============================================================================
-void Herb::setVectorFieldPlannerParameters(
-    const VectorFieldPlannerParameters& vfParameters)
-{
-  mLeftArm->setVectorFieldPlannerParameters(vfParameters);
-  mRightArm->setVectorFieldPlannerParameters(vfParameters);
-}
-
-//==============================================================================
-void Herb::setUpdatePositionsFromClient(bool flag)
-{
-  mUpdatePositionFlag = flag;
-}
-
-//==============================================================================
-ConcreteManipulatorPtr Herb::configureArm(
+ConcreteManipulatorPtr Human::configureArm(
     const std::string& armName,
     const dart::common::ResourceRetrieverPtr& retriever,
     dart::collision::CollisionDetectorPtr collisionDetector,
     const std::shared_ptr<dart::collision::BodyNodeCollisionFilter>&
         selfCollisionFilter)
 {
-  using dart::dynamics::Chain;
-
-  std::stringstream wamBaseName;
-  wamBaseName << "/" << armName << "/wam_base";
-
-  std::stringstream armEndName;
-  armEndName << "/" << armName << "/wam7";
-
-  // Same as hand-base for HERB [offset from wam7 by FT sensor dimension]
-  std::stringstream endEffectorName;
-  endEffectorName << "/" << armName << "/hand_base";
-
-  std::stringstream handBaseName;
-  handBaseName << "/" << armName << "/hand_base";
-
-  auto armBase = getBodyNodeOrThrow(mRobotSkeleton, wamBaseName.str());
-  auto armEnd = getBodyNodeOrThrow(mRobotSkeleton, armEndName.str());
-
-  auto arm = Chain::create(armBase, armEnd, armName + "_arm");
-  auto armSpace = std::make_shared<MetaSkeletonStateSpace>(arm.get());
-
-  auto hand = std::make_shared<BarrettHand>(
-      armName,
-      mSimulation,
-      getBodyNodeOrThrow(mRobotSkeleton, endEffectorName.str()),
-      getBodyNodeOrThrow(mRobotSkeleton, handBaseName.str()),
-      selfCollisionFilter,
-      mNode.get(),
-      retriever);
-
-  // Hardcoding to acceleration limits used in OpenRAVE
-  // This is necessary because HERB is loaded from URDF, which
-  // provides no means of specifying acceleration limits
-  arm->setAccelerationLowerLimits(
-      Eigen::VectorXd::Constant(arm->getNumDofs(), -2.0));
-  arm->setAccelerationUpperLimits(
-      Eigen::VectorXd::Constant(arm->getNumDofs(), 2.0));
-
-  auto manipulatorRobot = std::make_shared<ConcreteRobot>(
-      armName,
-      arm,
-      mSimulation,
-      cloneRNG(),
-      mTrajectoryExecutor,
-      collisionDetector,
-      selfCollisionFilter);
-
-  auto manipulator
-      = std::make_shared<ConcreteManipulator>(manipulatorRobot, hand);
-
-  return manipulator;
-}
-
-//==============================================================================
-std::shared_ptr<aikido::control::TrajectoryExecutor>
-Herb::createTrajectoryExecutor()
-{
-  using aikido::control::KinematicSimulationTrajectoryExecutor;
-  using aikido::control::ros::RosTrajectoryExecutor;
-
-  if (mSimulation)
-  {
-    return std::make_shared<KinematicSimulationTrajectoryExecutor>(
-        mRobotSkeleton);
-  }
-  else
-  {
-    // TODO: See https://github.com/personalrobotics/libherb/issues/96.
-    std::string serverName
-        = "bimanual_trajectory_controller/"
-          "follow_joint_trajectory";
-    return std::make_shared<RosTrajectoryExecutor>(
-        *mNode,
-        serverName,
-        mRosParams.mTrajectoryInterpolationTimestep,
-        mRosParams.mTrajectoryGoalTimeTolerance);
-  }
-}
-
-//==============================================================================
-dart::dynamics::ChainPtr Herb::configureNeck()
-{
-  using dart::dynamics::Chain;
-
-  std::string neckName = "neck";
-  std::string neckBaseName = "herb_frame";
-  std::string neckEndName = "neck_tilt";
-
-  auto neckBase = getBodyNodeOrThrow(mRobotSkeleton, neckBaseName);
-  auto neckEnd = getBodyNodeOrThrow(mRobotSkeleton, neckEndName);
-
-  auto neck = Chain::create(neckBase, neckEnd, neckName);
-  return neck;
-}
-
-//==============================================================================
-std::shared_ptr<aikido::control::PositionCommandExecutor>
-Herb::createNeckPositionExecutor(const dart::dynamics::ChainPtr& neck)
-{
-  using aikido::control::ros::RosPositionCommandExecutor;
-
-  if (mSimulation)
-  {
-    return std::
-        make_shared<SchunkNeckKinematicSimulationPositionCommandExecutor>(neck);
-  }
-  else
-  {
-    const std::string serverName = "schunk_robot/position_controller/set_position";
-
-    std::vector<std::string> jointNames{"pan", "tilt"};
-
-    return std::make_shared<RosPositionCommandExecutor>(
-        *mNode, serverName, jointNames);
-  }
-}
-
-//==============================================================================
-bool Herb::switchControllers(
-    const std::vector<std::string>& start_controllers,
-    const std::vector<std::string>& stop_controllers)
-{
-  if (!mNode)
-    throw std::runtime_error("Ros node has not been instantiated.");
-
-  if (!mControllerServiceClient)
-    throw std::runtime_error("ServiceClient not instantiated.");
-
-  controller_manager_msgs::SwitchController srv;
-  srv.request.start_controllers = start_controllers;
-  srv.request.stop_controllers = stop_controllers;
-  srv.request.strictness
-      = controller_manager_msgs::SwitchControllerRequest::STRICT;
-
-  if (mControllerServiceClient->call(srv))
-    return srv.response.ok;
-  else
-    throw std::runtime_error("SwitchController failed.");
+  // TODO!
+  throw std::runtime_error("Human -> configureArm() not implemented!");
 }
 
 } // ns
