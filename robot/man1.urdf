@@ -5,13 +5,13 @@
     <visual>
       <origin xyz="0 0.8569 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/Hips_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/Hips_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0.8569 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/Hips_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/Hips_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -24,13 +24,13 @@
     <visual>
       <origin xyz="0 0.0824 -0.0145" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/Chest_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/Chest_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0.0824 -0.0145" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/Chest_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/Chest_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -43,13 +43,13 @@
     <visual>
       <origin xyz="0 0.3917 0.0145" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LCollar_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LCollar_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0.3917 0.0145" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LCollar_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LCollar_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -62,13 +62,13 @@
     <visual>
       <origin xyz="0.1744 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LShoulder_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LShoulder_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0.1744 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LShoulder_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LShoulder_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -81,13 +81,13 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LShoulder2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LShoulder2_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LShoulder2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LShoulder2_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -100,13 +100,13 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LShoulder3_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LShoulder3_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LShoulder3_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LShoulder3_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -119,13 +119,13 @@
     <visual>
       <origin xyz="0 -0.3102 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LForearm_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LForearm_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 -0.3102 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LForearm_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LForearm_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -138,13 +138,13 @@
     <visual>
       <origin xyz="0 -0.2617 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LHand_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LHand_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 -0.2617 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LHand_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LHand_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -157,13 +157,13 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LHand2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LHand2_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LHand2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LHand2_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -176,13 +176,13 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LHand3_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LHand3_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LHand3_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LHand3_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -195,13 +195,13 @@
     <visual>
       <origin xyz="0.0150049 -0.0850973 0.02267" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing10_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing10_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0.0150049 -0.0850973 0.02267" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing10_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing10_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -214,13 +214,13 @@
     <visual>
       <origin xyz="0.00822397 -0.0466405 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing11_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing11_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0.00822397 -0.0466405 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing11_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing11_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -233,13 +233,13 @@
     <visual>
       <origin xyz="0.004817 -0.0273186 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing12_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing12_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0.004817 -0.0273186 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing12_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing12_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -252,13 +252,13 @@
     <visual>
       <origin xyz="0.0149702 -0.0849003 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing20_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing20_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0.0149702 -0.0849003 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing20_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing20_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -271,13 +271,13 @@
     <visual>
       <origin xyz="0.00892898 -0.0506388 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing21_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing21_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0.00892898 -0.0506388 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing21_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing21_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -290,13 +290,13 @@
     <visual>
       <origin xyz="0.00570608 -0.0323608 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing22_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing22_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0.00570608 -0.0323608 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing22_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing22_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -309,13 +309,13 @@
     <visual>
       <origin xyz="0.0137286 -0.077859 -0.0186" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing30_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing30_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0.0137286 -0.077859 -0.0186" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing30_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing30_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -328,13 +328,13 @@
     <visual>
       <origin xyz="0.00819098 -0.0464534 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing31_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing31_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0.00819098 -0.0464534 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing31_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing31_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -347,13 +347,13 @@
     <visual>
       <origin xyz="0.00553764 -0.0314055 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing32_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing32_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0.00553764 -0.0314055 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing32_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing32_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -366,13 +366,13 @@
     <visual>
       <origin xyz="0.0123516 -0.0700494 -0.0363" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing40_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing40_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0.0123516 -0.0700494 -0.0363" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing40_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing40_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -385,13 +385,13 @@
     <visual>
       <origin xyz="0.00684694 -0.038831 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing41_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing41_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0.00684694 -0.038831 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing41_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing41_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -404,13 +404,13 @@
     <visual>
       <origin xyz="0.0039279 -0.0222763 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing42_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing42_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0.0039279 -0.0222763 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFing42_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFing42_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -423,13 +423,13 @@
     <visual>
       <origin xyz="-0.00739791 -0.0156321 0.0177" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LThumbBase_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LThumbBase_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="-0.00739791 -0.0156321 0.0177" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LThumbBase_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LThumbBase_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -442,13 +442,13 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LThumbBase2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LThumbBase2_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LThumbBase2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LThumbBase2_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -461,13 +461,13 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LThumb0_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LThumb0_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LThumb0_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LThumb0_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -480,13 +480,13 @@
     <visual>
       <origin xyz="0.0081383 -0.046155 0.012558" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LThumb1_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LThumb1_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0.0081383 -0.046155 0.012558" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LThumb1_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LThumb1_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -499,13 +499,13 @@
     <visual>
       <origin xyz="0.006355 -0.036043 0.0098067" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LThumb2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LThumb2_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0.006355 -0.036043 0.0098067" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LThumb2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LThumb2_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -518,13 +518,13 @@
     <visual>
       <origin xyz="0 0.4352 0.0048" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/Neck_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/Neck_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0.4352 0.0048" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/Neck_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/Neck_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -537,13 +537,13 @@
     <visual>
       <origin xyz="0 0.1255 0.0096" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/Head_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/Head_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0.1255 0.0096" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/Head_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/Head_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -556,13 +556,13 @@
     <visual>
       <origin xyz="0.029 0.035 0.091" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LeftEye_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LeftEye_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0.029 0.035 0.091" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LeftEye_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LeftEye_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -575,13 +575,13 @@
     <visual>
       <origin xyz="-0.03 0.035 0.091" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RightEye_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RightEye_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="-0.03 0.035 0.091" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RightEye_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RightEye_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -594,13 +594,13 @@
     <visual>
       <origin xyz="0 0.3917 0.0145" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RCollar_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RCollar_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0.3917 0.0145" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RCollar_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RCollar_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -613,13 +613,13 @@
     <visual>
       <origin xyz="-0.1744 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RShoulder_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RShoulder_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="-0.1744 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RShoulder_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RShoulder_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -632,13 +632,13 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RShoulder2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RShoulder2_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RShoulder2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RShoulder2_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -651,13 +651,13 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RShoulder3_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RShoulder3_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RShoulder3_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RShoulder3_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -670,13 +670,13 @@
     <visual>
       <origin xyz="0 -0.3102 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RForearm_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RForearm_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 -0.3102 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RForearm_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RForearm_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -689,13 +689,13 @@
     <visual>
       <origin xyz="0 -0.2617 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RHand_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RHand_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 -0.2617 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RHand_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RHand_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -708,13 +708,13 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RHand2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RHand2_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RHand2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RHand2_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -727,13 +727,13 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RHand3_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RHand3_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RHand3_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RHand3_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -746,13 +746,13 @@
     <visual>
       <origin xyz="-0.0150049 -0.0850973 0.02267" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing10_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing10_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="-0.0150049 -0.0850973 0.02267" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing10_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing10_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -765,13 +765,13 @@
     <visual>
       <origin xyz="-0.00822397 -0.0466405 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing11_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing11_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="-0.00822397 -0.0466405 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing11_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing11_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -784,13 +784,13 @@
     <visual>
       <origin xyz="-0.004817 -0.0273186 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing12_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing12_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="-0.004817 -0.0273186 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing12_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing12_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -803,13 +803,13 @@
     <visual>
       <origin xyz="-0.0149702 -0.0849003 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing20_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing20_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="-0.0149702 -0.0849003 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing20_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing20_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -822,13 +822,13 @@
     <visual>
       <origin xyz="-0.00892898 -0.0506388 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing21_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing21_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="-0.00892898 -0.0506388 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing21_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing21_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -841,13 +841,13 @@
     <visual>
       <origin xyz="-0.00570608 -0.0323608 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing22_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing22_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="-0.00570608 -0.0323608 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing22_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing22_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -860,13 +860,13 @@
     <visual>
       <origin xyz="-0.0137286 -0.077859 -0.0186" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing30_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing30_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="-0.0137286 -0.077859 -0.0186" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing30_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing30_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -879,13 +879,13 @@
     <visual>
       <origin xyz="-0.00819098 -0.0464534 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing31_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing31_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="-0.00819098 -0.0464534 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing31_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing31_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -898,13 +898,13 @@
     <visual>
       <origin xyz="-0.00553764 -0.0314055 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing32_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing32_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="-0.00553764 -0.0314055 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing32_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing32_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -917,13 +917,13 @@
     <visual>
       <origin xyz="-0.0123516 -0.0700494 -0.0363" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing40_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing40_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="-0.0123516 -0.0700494 -0.0363" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing40_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing40_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -936,13 +936,13 @@
     <visual>
       <origin xyz="-0.00684694 -0.038831 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing41_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing41_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="-0.00684694 -0.038831 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing41_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing41_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -955,13 +955,13 @@
     <visual>
       <origin xyz="-0.00392792 -0.0222764 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing42_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing42_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="-0.00392792 -0.0222764 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFing42_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFing42_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -974,13 +974,13 @@
     <visual>
       <origin xyz="0.00739791 -0.0156321 0.0177" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RThumbBase_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RThumbBase_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0.00739791 -0.0156321 0.0177" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RThumbBase_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RThumbBase_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -993,13 +993,13 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RThumbBase2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RThumbBase2_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RThumbBase2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RThumbBase2_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -1012,13 +1012,13 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RThumb0_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RThumb0_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RThumb0_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RThumb0_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -1031,13 +1031,13 @@
     <visual>
       <origin xyz="-0.0081383 -0.046155 0.012558" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RThumb1_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RThumb1_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="-0.0081383 -0.046155 0.012558" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RThumb1_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RThumb1_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -1050,13 +1050,13 @@
     <visual>
       <origin xyz="-0.006355 -0.03604 0.009807" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RThumb2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RThumb2_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="-0.006355 -0.03604 0.009807" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RThumb2_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RThumb2_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -1069,13 +1069,13 @@
     <visual>
       <origin xyz="0.0824 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LThigh_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LThigh_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0.0824 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LThigh_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LThigh_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -1088,13 +1088,13 @@
     <visual>
       <origin xyz="0 -0.3877 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LCalf_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LCalf_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 -0.3877 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LCalf_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LCalf_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -1107,13 +1107,13 @@
     <visual>
       <origin xyz="0 -0.4023 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFoot_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFoot_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 -0.4023 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LFoot_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LFoot_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -1126,13 +1126,13 @@
     <visual>
       <origin xyz="0 -0.0387 0.1405" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LToe_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LToe_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 -0.0387 0.1405" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/LToe_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/LToe_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -1145,13 +1145,13 @@
     <visual>
       <origin xyz="-0.0824 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RThigh_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RThigh_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="-0.0824 0 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RThigh_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RThigh_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -1164,13 +1164,13 @@
     <visual>
       <origin xyz="0 -0.3877 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RCalf_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RCalf_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 -0.3877 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RCalf_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RCalf_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -1183,13 +1183,13 @@
     <visual>
       <origin xyz="0 -0.4023 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFoot_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFoot_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 -0.4023 0" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RFoot_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RFoot_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
@@ -1202,13 +1202,13 @@
     <visual>
       <origin xyz="0 -0.0387 0.1405" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RToe_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RToe_mesh.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>
       <origin xyz="0 -0.0387 0.1405" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="file:///tmp/RToe_mesh.dae" scale="1 1 1" />
+        <mesh filename="package://libhuman/robot/mesh/RToe_mesh.dae" scale="1 1 1" />
       </geometry>
     </collision>
     <inertial>
