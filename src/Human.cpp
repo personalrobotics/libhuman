@@ -17,6 +17,14 @@
 
 namespace human {
 
+using dart::dynamics::SkeletonPtr;
+using dart::dynamics::BodyNodePtr;
+using aikido::constraint::dart::CollisionFreePtr;
+using aikido::constraint::TestablePtr;
+using aikido::robot::ConcreteManipulatorPtr;
+using aikido::statespace::dart::ConstMetaSkeletonStateSpacePtr;
+using aikido::trajectory::TrajectoryPtr;
+
 const dart::common::Uri humanUrdfUri{
     "package://libhuman/robot/man1.urdf"};
 const dart::common::Uri namedConfigurationsUri{
@@ -48,9 +56,6 @@ Human::Human(
   : mRng(rngSeed)
   , mWorld(std::move(env))
 {
-  using aikido::common::ExecutorThread;
-  using aikido::control::ros::RosJointStateClient;
-
   std::string name = "man1";
 
   // Load Human.
@@ -175,14 +180,14 @@ ConcreteManipulatorPtr Human::getLeftArm()
 }
 
 //==============================================================================
-BarrettHandPtr Human::getRightHand()
+BodyNodePtr Human::getRightHand()
 {
   // TODO!
   throw std::runtime_error("Human -> getRightHand() not implemented!");
 }
 
 //==============================================================================
-BarrettHandPtr Human::getLeftHand()
+BodyNodePtr Human::getLeftHand()
 {
   // TODO!
   throw std::runtime_error("Human -> getLeftHand() not implemented!");

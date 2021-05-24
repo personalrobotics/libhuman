@@ -101,10 +101,10 @@ public:
   aikido::robot::ConcreteManipulatorPtr getLeftArm();
 
   /// Get the right hand
-  BarrettHandPtr getRightHand();
+  dart::dynamics::BodyNodePtr getRightHand();
 
   /// Get the left hand
-  BarrettHandPtr getLeftHand();
+  dart::dynamics::BodyNodePtr getLeftHand();
 
 private:
   /// Schema description for named configurations YAML file.
