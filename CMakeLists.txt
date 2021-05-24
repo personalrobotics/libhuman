@@ -61,7 +61,7 @@ set(sources
 add_library(libhuman SHARED ${sources})
 
 target_include_directories(libhuman PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )
 
