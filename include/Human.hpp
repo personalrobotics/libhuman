@@ -112,13 +112,11 @@ private:
   /// Maps a configuration name (string) to a configuration
   using ConfigurationMap = std::unordered_map<std::string, Eigen::VectorXd>;
 
-  /// Initialize a concrete manipulator.
+  /// Initialize an arm.
   ///
   /// \param[in] armName Name of the arm, either "left" or "right"
   /// \param[in] retriever Resource retriever to resolve URIs
-  /// \param[in] collisionDetector Collision detector
-  /// \param[in] selfCollisionFilter Collision filter for self collision
-  aikido::robot::ConcreteManipulatorPtr configureArm(
+  void configureArm(
       const std::string& armName,
       const dart::common::ResourceRetrieverPtr& retriever);
 
@@ -135,10 +133,12 @@ private:
   aikido::statespace::dart::MetaSkeletonStateSpacePtr mSpace;
 
   /// Human's left arm
-  aikido::robot::ConcreteManipulatorPtr mLeftArm;
+  dart::dynamics::MetaSkeletonPtr mLeftArm;
+  aikido::statespace::dart::MetaSkeletonStateSpacePtr mLeftArmSpace;
 
   /// Human's right arm
-  aikido::robot::ConcreteManipulatorPtr mRightArm;
+  dart::dynamics::MetaSkeletonPtr mRightArm;
+  aikido::statespace::dart::MetaSkeletonStateSpacePtr mRightArmSpace;
 
   /// Human concrete robot
   aikido::robot::ConcreteRobotPtr mRobot;

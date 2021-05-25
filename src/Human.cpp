@@ -76,8 +76,8 @@ Human::Human(
   mSpace = std::make_shared<MetaSkeletonStateSpace>(mRobotSkeleton.get());
 
   // TODO: Enable this.
-  mLeftArm = configureArm("left", retriever);
-  mRightArm = configureArm("right", retriever);
+  configureArm("left", retriever);
+  configureArm("right", retriever);
 
   // TODO!
 
@@ -203,12 +203,32 @@ BodyNodePtr Human::getLeftHand()
 }
 
 //==============================================================================
-ConcreteManipulatorPtr Human::configureArm(
+void Human::configureArm(
     const std::string& armName,
     const dart::common::ResourceRetrieverPtr& retriever)
 {
-  // TODO!
-  throw std::runtime_error("Human -> configureArm() not implemented!");
+  using dart::dynamics::Chain;
+
+  std::stringstream wamBaseName;
+  wamBaseName << "/" << armName << "/wam_base";
+
+  std::stringstream armEndName;
+  armEndName << "/" << armName << "/wam7";
+
+  auto armBase = getBodyNodeOrThrow(mRobotSkeleton, wamBaseName.str());
+  auto armEnd = getBodyNodeOrThrow(mRobotSkeleton, armEndName.str());
+
+  auto arm = Chain::create(armBase, armEnd, armName + "_arm");
+
+  // Hardcoding to acceleration limits used in OpenRAVE
+  // This is necessary because HERB is loaded from URDF, which
+  // provides no means of specifying acceleration limits
+  arm->setAccelerationLowerLimits(
+      Eigen::VectorXd::Constant(arm->getNumDofs(), -2.0));
+  arm->setAccelerationUpperLimits(
+      Eigen::VectorXd::Constant(arm->getNumDofs(), 2.0));
+
+  // TODO: Set fields, hand.
 }
 
 } // ns
