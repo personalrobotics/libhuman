@@ -65,6 +65,18 @@ Human::Human(
   {
     dart::utils::DartLoader urdfLoader;
     mRobotSkeleton = urdfLoader.parseSkeleton(humanUrdfUri, retriever);
+
+    // NOTE: Correction so dude is right-side up.
+    Eigen::Isometry3d correctionTransform = Eigen::Isometry3d::Identity();
+    Eigen::Matrix3d rot;
+    rot = Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ())
+          * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY())
+          * Eigen::AngleAxisd(M_PI_2, Eigen::Vector3d::UnitX());
+    correctionTransform.linear() = rot;
+
+    dynamic_cast<dart::dynamics::FreeJoint*>(mRobotSkeleton->getJoint(0))
+      ->setTransform(correctionTransform);
+
     mWorld->addSkeleton(mRobotSkeleton);
   }
 
