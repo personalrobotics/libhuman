@@ -76,8 +76,8 @@ Human::Human(
   mSpace = std::make_shared<MetaSkeletonStateSpace>(mRobotSkeleton.get());
 
   // TODO: Enable this.
-  configureArm("left", retriever);
-  configureArm("right", retriever);
+  configureArm("L", retriever);
+  configureArm("R", retriever);
 
   // TODO!
 
@@ -209,16 +209,17 @@ void Human::configureArm(
 {
   using dart::dynamics::Chain;
 
-  std::stringstream wamBaseName;
-  wamBaseName << "/" << armName << "/wam_base";
+  std::stringstream armStartName;
+  armStartName << "J" << armName << "Shoulder";
 
   std::stringstream armEndName;
-  armEndName << "/" << armName << "/wam7";
+  armEndName << "J" << armName << "Hand3";
 
-  auto armBase = getBodyNodeOrThrow(mRobotSkeleton, wamBaseName.str());
+  auto armBase = getBodyNodeOrThrow(mRobotSkeleton, armStartName.str());
   auto armEnd = getBodyNodeOrThrow(mRobotSkeleton, armEndName.str());
 
   auto arm = Chain::create(armBase, armEnd, armName + "_arm");
+  auto armSpace = std::make_shared<MetaSkeletonStateSpace>(arm.get());
 
   // Hardcoding to acceleration limits used in OpenRAVE
   // This is necessary because HERB is loaded from URDF, which
