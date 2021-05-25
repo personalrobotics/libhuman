@@ -12,6 +12,7 @@
 #include <aikido/robot/util.hpp>
 #include <aikido/statespace/dart/MetaSkeletonStateSaver.hpp>
 #include <aikido/statespace/dart/MetaSkeletonStateSpace.hpp>
+#include <aikido/planner/vectorfield/VectorFieldUtil.hpp>
 #include <dart/common/Timer.hpp>
 #include <dart/utils/urdf/DartLoader.hpp>
 #include <urdf/model.h>
@@ -52,6 +53,17 @@ BodyNodePtr getBodyNodeOrThrow(
   }
 
   return bodyNode;
+}
+
+double computeSE3Distance(
+  const Eigen::Isometry3d& firstPose,
+  const Eigen::Isometry3d& secondPose
+) {
+  double conversionRatioFromRadiusToMeter = 0.17;
+
+  // Borrowed from VFP, should do the same thing as PrPy.
+  return aikido::planner::vectorfield::computeGeodesicDistance(
+    firstPose, secondPose, conversionRatioFromRadiusToMeter);
 }
 } // ns
 
@@ -317,9 +329,7 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::computeIK(
     ik->solve(true);
     Eigen::VectorXd curSol = arm->getPositions();
 
-    double curError = 0.0;
-    // TODO!
-    // double curError = computeSE3Distance(hand->getTransform(), target);
+    double curError = computeSE3Distance(hand->getTransform(), target);
     solutionsAndErrors.push_back(std::make_pair(curSol, curError));
   }
 
