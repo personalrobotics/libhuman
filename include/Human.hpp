@@ -140,6 +140,9 @@ private:
     const aikido::statespace::dart::MetaSkeletonStateSpacePtr& armSpace,
     const dart::dynamics::BodyNodePtr& hand);
 
+  // Correction transform to place human "right side up".
+  Eigen::Isometry3d mCorrectionTransform;
+
   /// Random generator
   aikido::common::RNGWrapper<std::mt19937> mRng;
 
