@@ -19,6 +19,9 @@ namespace human {
 
 using dart::dynamics::SkeletonPtr;
 using dart::dynamics::BodyNodePtr;
+using dart::dynamics::InverseKinematics;
+using dart::dynamics::InverseKinematicsPtr;
+
 using aikido::constraint::dart::CollisionFreePtr;
 using aikido::constraint::TestablePtr;
 using aikido::robot::ConcreteManipulatorPtr;
@@ -252,14 +255,20 @@ void Human::configureArm(
   handName << armName << "Hand3";
   auto handNode = getBodyNodeOrThrow(mRobotSkeleton, handName.str());
 
+  // Create an IK solver.
+  InverseKinematicsPtr ikSolver = InverseKinematics::create(handNode);
+  ikSolver->setDofs(arm->getDofs());
+
   if (armName == "L") {
     mLeftArm = arm;
     mLeftArmSpace = armSpace;
     mLeftHand = handNode;
+    mLeftIk = ikSolver;
   } else if (armName == "R") {
     mRightArm = arm;
     mRightArmSpace = armSpace;
     mRightHand = handNode;
+    mRightIk = ikSolver;
   } else {
     std::stringstream message;
     message << "configureArm: armName not recognized!";

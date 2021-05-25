@@ -136,11 +136,13 @@ private:
   dart::dynamics::MetaSkeletonPtr mLeftArm;
   aikido::statespace::dart::MetaSkeletonStateSpacePtr mLeftArmSpace;
   dart::dynamics::BodyNodePtr mLeftHand;
+  dart::dynamics::InverseKinematicsPtr mLeftIk;
 
   /// Human's right arm
   dart::dynamics::MetaSkeletonPtr mRightArm;
   aikido::statespace::dart::MetaSkeletonStateSpacePtr mRightArmSpace;
   dart::dynamics::BodyNodePtr mRightHand;
+  dart::dynamics::InverseKinematicsPtr mRightIk;
 
   /// Human concrete robot
   aikido::robot::ConcreteRobotPtr mRobot;
