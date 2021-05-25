@@ -210,10 +210,10 @@ void Human::configureArm(
   using dart::dynamics::Chain;
 
   std::stringstream armStartName;
-  armStartName << "J" << armName << "Shoulder";
+  armStartName << armName << "Shoulder";
 
   std::stringstream armEndName;
-  armEndName << "J" << armName << "Hand3";
+  armEndName << armName << "Forearm";
 
   auto armBase = getBodyNodeOrThrow(mRobotSkeleton, armStartName.str());
   auto armEnd = getBodyNodeOrThrow(mRobotSkeleton, armEndName.str());
