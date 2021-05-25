@@ -120,6 +120,16 @@ private:
       const std::string& armName,
       const dart::common::ResourceRetrieverPtr& retriever);
 
+  // Private helper for common IK logic between left/right arm.
+  std::vector<std::pair<Eigen::VectorXd, double>> computeIK(
+    const Eigen::Isometry3d& target,
+    const int numSol,
+    const dart::dynamics::InverseKinematicsPtr& ik,
+    const std::shared_ptr<aikido::constraint::Sampleable>& ikSeedSampler,
+    const dart::dynamics::MetaSkeletonPtr& arm,
+    const aikido::statespace::dart::MetaSkeletonStateSpacePtr& armSpace,
+    const dart::dynamics::BodyNodePtr& hand);
+
   /// Random generator
   aikido::common::RNGWrapper<std::mt19937> mRng;
 

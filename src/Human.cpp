@@ -10,6 +10,7 @@
 #include <aikido/robot/ConcreteManipulator.hpp>
 #include <aikido/robot/ConcreteRobot.hpp>
 #include <aikido/robot/util.hpp>
+#include <aikido/statespace/dart/MetaSkeletonStateSaver.hpp>
 #include <aikido/statespace/dart/MetaSkeletonStateSpace.hpp>
 #include <dart/common/Timer.hpp>
 #include <dart/utils/urdf/DartLoader.hpp>
@@ -23,9 +24,12 @@ using dart::dynamics::InverseKinematics;
 using dart::dynamics::InverseKinematicsPtr;
 
 using aikido::constraint::dart::CollisionFreePtr;
+using aikido::constraint::Sampleable;
+using aikido::constraint::SampleGenerator;
 using aikido::constraint::TestablePtr;
 using aikido::robot::ConcreteManipulatorPtr;
 using aikido::statespace::dart::ConstMetaSkeletonStateSpacePtr;
+using aikido::statespace::dart::MetaSkeletonStateSaver;
 using aikido::statespace::dart::MetaSkeletonStateSpace;
 using aikido::trajectory::TrajectoryPtr;
 
@@ -276,6 +280,58 @@ void Human::configureArm(
   }
 
   std::cout << "Loaded " << armName << " Arm" << std::endl;
+}
+
+//==============================================================================
+
+std::vector<std::pair<Eigen::VectorXd, double>> Human::computeIK(
+  const Eigen::Isometry3d& target,
+  const int numSol,
+  const InverseKinematicsPtr& ik,
+  const std::shared_ptr<Sampleable>& ikSeedSampler,
+  const dart::dynamics::MetaSkeletonPtr& arm,
+  const aikido::statespace::dart::MetaSkeletonStateSpacePtr& armSpace,
+  const BodyNodePtr& hand
+) {
+  auto saver = MetaSkeletonStateSaver(
+    arm, MetaSkeletonStateSaver::Options::POSITIONS);
+  DART_UNUSED(saver);
+
+  std::vector<std::pair<Eigen::VectorXd, double>> solutionsAndErrors;
+
+  std::shared_ptr<SampleGenerator> ikSeedGenerator
+      = ikSeedSampler->createSampleGenerator();
+  auto seedState = armSpace->createState();
+
+  for (int i = 0; i < numSol; i++)
+  {
+    if (!ikSeedGenerator->sample(seedState))
+    {
+      std::stringstream message;
+      message << "computeIK: out of seed configs!";
+      throw std::runtime_error(message.str());
+    }
+
+    armSpace->setState(arm.get(), seedState);
+    ik->getTarget()->setTransform(target);
+    ik->solve(true);
+    Eigen::VectorXd curSol = arm->getPositions();
+
+    double curError = 0.0;
+    // TODO!
+    // double curError = computeSE3Distance(hand->getTransform(), target);
+    solutionsAndErrors.push_back(std::make_pair(curSol, curError));
+  }
+
+  // Ranks IK solutions by final pose error.
+  auto sortByError =
+      [](const std::pair<Eigen::VectorXd, double>& a,
+        const std::pair<Eigen::VectorXd, double>& b) {
+        return a.second < b.second;
+      };
+  std::sort(solutionsAndErrors.begin(), solutionsAndErrors.end(), sortByError);
+
+  return solutionsAndErrors;
 }
 
 } // ns
