@@ -79,6 +79,12 @@ Human::Human(
   configureArm("L", retriever);
   configureArm("R", retriever);
 
+  // TODO: Enable this again.
+  // // Load the named configurations
+  // auto namedConfigurations = parseYAMLToNamedConfigurations(
+  //     aikido::io::loadYAML(namedConfigurationsUri, retriever));
+  // mRobot->setNamedConfigurations(namedConfigurations);
+
   // TODO!
 
   // NOTE: Just try and literally load the URDF for now.
