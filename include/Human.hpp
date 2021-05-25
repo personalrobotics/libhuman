@@ -106,6 +106,16 @@ public:
   /// Get the left hand
   dart::dynamics::BodyNodePtr getLeftHand();
 
+  /// Compute IK with left arm.
+  std::vector<std::pair<Eigen::VectorXd, double>> computeLeftIK(
+    const Eigen::Isometry3d& target,
+    const int numSol);
+
+  // Compute IK with right arm.
+  std::vector<std::pair<Eigen::VectorXd, double>> computeRightIK(
+    const Eigen::Isometry3d& target,
+    const int numSol);
+
 private:
   /// Schema description for named configurations YAML file.
   ///

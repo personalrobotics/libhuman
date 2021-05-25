@@ -6,6 +6,7 @@
 #include <string>
 
 #include <aikido/common/RNG.hpp>
+#include <aikido/constraint/dart/JointStateSpaceHelpers.hpp>
 #include <aikido/io/yaml.hpp>
 #include <aikido/robot/ConcreteManipulator.hpp>
 #include <aikido/robot/ConcreteRobot.hpp>
@@ -25,6 +26,7 @@ using dart::dynamics::InverseKinematics;
 using dart::dynamics::InverseKinematicsPtr;
 
 using aikido::constraint::dart::CollisionFreePtr;
+using aikido::constraint::dart::createSampleableBounds;
 using aikido::constraint::Sampleable;
 using aikido::constraint::SampleGenerator;
 using aikido::constraint::TestablePtr;
@@ -237,6 +239,44 @@ BodyNodePtr Human::getLeftHand()
 {
   // TODO!
   throw std::runtime_error("Human -> getLeftHand() not implemented!");
+}
+
+//==============================================================================
+
+std::vector<std::pair<Eigen::VectorXd, double>> Human::computeLeftIK(
+  const Eigen::Isometry3d& target,
+  const int numSol)
+{
+  std::shared_ptr<Sampleable> ikSeedSampler
+      = createSampleableBounds(mLeftArmSpace, cloneRNG());
+
+  return computeIK(
+    target,
+    numSol,
+    mLeftIk,
+    ikSeedSampler,
+    mLeftArm,
+    mLeftArmSpace,
+    mLeftHand);
+}
+
+//==============================================================================
+
+std::vector<std::pair<Eigen::VectorXd, double>> Human::computeRightIK(
+  const Eigen::Isometry3d& target,
+  const int numSol)
+{
+  std::shared_ptr<Sampleable> ikSeedSampler
+      = createSampleableBounds(mRightArmSpace, cloneRNG());
+
+  return computeIK(
+    target,
+    numSol,
+    mRightIk,
+    ikSeedSampler,
+    mRightArm,
+    mRightArmSpace,
+    mRightHand);
 }
 
 //==============================================================================
