@@ -119,6 +119,19 @@ install(FILES "package.xml"
 
 install(DIRECTORY resources DESTINATION share)
 
+#===============================================================================
+# Basic scripts to play around with.
+
+add_executable(simple_load
+  script/simple_load.cpp)
+
+target_link_libraries(simple_load
+  ${DART_LIBRARIES}
+  ${aikido_LIBRARIES}
+  ${Boost_LIBRARIES}
+  libhuman)
+
+install(TARGETS simple_load RUNTIME DESTINATION bin)
 
 #================================================================================
 # Formatting
