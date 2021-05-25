@@ -116,6 +116,9 @@ public:
     const Eigen::Isometry3d& target,
     const int numSol);
 
+  // Set the placement of the human in the plane.
+  void setPlacementXYZ(const Eigen::Vector3d& placement);
+
 private:
   /// Schema description for named configurations YAML file.
   ///

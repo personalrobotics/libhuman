@@ -280,6 +280,17 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::computeRightIK(
 }
 
 //==============================================================================
+
+void Human::setPlacementXYZ(const Eigen::Vector3d& placement)
+{
+  Eigen::Isometry3d placementTransform = Eigen::Isometry3d::Identity();
+  placementTransform.translation() = placement;
+
+  dynamic_cast<dart::dynamics::FreeJoint*>(mRobotSkeleton->getJoint(0))
+    ->setTransform(placementTransform * mCorrectionTransform);
+}
+
+//==============================================================================
 void Human::configureArm(
     const std::string& armName,
     const dart::common::ResourceRetrieverPtr& retriever)
