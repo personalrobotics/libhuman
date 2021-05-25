@@ -229,7 +229,13 @@ void Human::configureArm(
   arm->setAccelerationUpperLimits(
       Eigen::VectorXd::Constant(arm->getNumDofs(), 2.0));
 
+  // Grab the hand.
+  std::stringstream handName;
+  handName << armName << "Hand3";
+  auto handNode = getBodyNodeOrThrow(mRobotSkeleton, handName.str());
+
   // TODO: Set fields, hand.
+  std::cout << "Loaded " << armName << " Arm" << std::endl;
 }
 
 } // ns
