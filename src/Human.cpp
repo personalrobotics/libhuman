@@ -234,7 +234,20 @@ void Human::configureArm(
   handName << armName << "Hand3";
   auto handNode = getBodyNodeOrThrow(mRobotSkeleton, handName.str());
 
-  // TODO: Set fields, hand.
+  if (armName == "L") {
+    mLeftArm = arm;
+    mLeftArmSpace = armSpace;
+    mLeftHand = handNode;
+  } else if (armName == "R") {
+    mRightArm = arm;
+    mRightArmSpace = armSpace;
+    mRightHand = handNode;
+  } else {
+    std::stringstream message;
+    message << "configureArm: armName not recognized!";
+    throw std::runtime_error(message.str());
+  }
+
   std::cout << "Loaded " << armName << " Arm" << std::endl;
 }
 
