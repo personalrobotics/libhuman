@@ -26,9 +26,24 @@ int main(int argc, char** argv)
   // Create AIKIDO World
   aikido::planner::WorldPtr env(new aikido::planner::World("simple_load"));
 
-  // Load HERB either in simulation or real based on arguments
+  // Load the human.
   ROS_INFO("Loading Human.");
   human::Human human(env);
+
+  // Start Visualization Topic
+  static const std::string topicName = topicName + "/simple_load";
+
+  // Start the RViz viewer.
+  ROS_INFO_STREAM(
+      "Starting viewer. Please subscribe to the '"
+      << topicName
+      << "' InteractiveMarker topic in RViz.");
+  aikido::rviz::InteractiveMarkerViewer viewer(topicName, baseFrameName, env);
+
+  // Add Human to the viewer.
+  viewer.setAutoUpdate(true);
+
+  waitForUser("Press [ENTER] to exit: ");
 
   return 0;
 }
