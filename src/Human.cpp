@@ -23,6 +23,7 @@ using aikido::constraint::dart::CollisionFreePtr;
 using aikido::constraint::TestablePtr;
 using aikido::robot::ConcreteManipulatorPtr;
 using aikido::statespace::dart::ConstMetaSkeletonStateSpacePtr;
+using aikido::statespace::dart::MetaSkeletonStateSpace;
 using aikido::trajectory::TrajectoryPtr;
 
 const dart::common::Uri humanUrdfUri{
@@ -71,6 +72,14 @@ Human::Human(
   {
     throw std::runtime_error("Unable to load Human model.");
   }
+
+  mSpace = std::make_shared<MetaSkeletonStateSpace>(mRobotSkeleton.get());
+
+  // TODO: Enable this.
+  mLeftArm = configureArm("left", retriever);
+  mRightArm = configureArm("right", retriever);
+
+  // TODO!
 
   // NOTE: Just try and literally load the URDF for now.
   std::cout << "LOADED HUMAN URDF YAY :)" << std::endl;
@@ -196,10 +205,7 @@ BodyNodePtr Human::getLeftHand()
 //==============================================================================
 ConcreteManipulatorPtr Human::configureArm(
     const std::string& armName,
-    const dart::common::ResourceRetrieverPtr& retriever,
-    dart::collision::CollisionDetectorPtr collisionDetector,
-    const std::shared_ptr<dart::collision::BodyNodeCollisionFilter>&
-        selfCollisionFilter)
+    const dart::common::ResourceRetrieverPtr& retriever)
 {
   // TODO!
   throw std::runtime_error("Human -> configureArm() not implemented!");

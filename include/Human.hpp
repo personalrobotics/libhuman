@@ -120,10 +120,7 @@ private:
   /// \param[in] selfCollisionFilter Collision filter for self collision
   aikido::robot::ConcreteManipulatorPtr configureArm(
       const std::string& armName,
-      const dart::common::ResourceRetrieverPtr& retriever,
-      dart::collision::CollisionDetectorPtr collisionDetector,
-      const std::shared_ptr<dart::collision::BodyNodeCollisionFilter>&
-          selfCollisionFilter);
+      const dart::common::ResourceRetrieverPtr& retriever);
 
   /// Random generator
   aikido::common::RNGWrapper<std::mt19937> mRng;
