@@ -418,4 +418,60 @@ std::pair<Eigen::VectorXd, double> Human::computeSingleIK(
   return std::make_pair(curSol, curError);
 }
 
+//==============================================================================
+
+std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleTSR(
+  std::shared_ptr<aikido::constraint::dart::TSR>& tsr,
+  const int numSamples,
+  const InverseKinematicsPtr& ik,
+  const std::shared_ptr<Sampleable>& ikSeedSampler,
+  const dart::dynamics::MetaSkeletonPtr& arm,
+  const aikido::statespace::dart::MetaSkeletonStateSpacePtr& armSpace,
+  const BodyNodePtr& hand
+) {
+  std::shared_ptr<SampleGenerator> ikSeedGenerator
+      = ikSeedSampler->createSampleGenerator();
+
+  tsr->setRNG(cloneRNG());
+
+  // Used to actually sample poses.
+  std::unique_ptr<SampleGenerator> poseSampler = tsr->createSampleGenerator();
+
+  if (poseSampler->getNumSamples() != SampleGenerator::NO_LIMIT)
+  {
+    throw std::invalid_argument("sampleTSR: TSR does not have inf samples!");
+  }
+
+  using aikido::statespace::SE3;
+  std::shared_ptr<const SE3> poseStateSpace
+    = std::dynamic_pointer_cast<const SE3>(poseSampler->getStateSpace());
+  if (!poseStateSpace)
+    throw std::invalid_argument("sampleTSR: TSR does not operate on SE3!");
+
+  std::vector<std::pair<Eigen::VectorXd, double>> samplesAndErrors;
+  for (int poseIndex = 0; poseIndex < numSamples; poseIndex++)
+  {
+    auto poseState = poseStateSpace->createState();
+    // Assert that we can still sample poses.
+    if (!poseSampler->sample(poseState))
+      throw std::runtime_error("sampleTSR: Pose sampler exhausted!");
+
+    Eigen::Isometry3d curTargetPose = poseState.getIsometry();
+    std::pair<Eigen::VectorXd, double> sampleWithError = computeSingleIK(
+      curTargetPose, ik, ikSeedGenerator, arm, armSpace, hand);
+
+    samplesAndErrors.push_back(sampleWithError);
+  }
+
+  // Ranks IK solutions by final pose error.
+  auto sortByError =
+      [](const std::pair<Eigen::VectorXd, double>& a,
+        const std::pair<Eigen::VectorXd, double>& b) {
+        return a.second < b.second;
+      };
+  std::sort(samplesAndErrors.begin(), samplesAndErrors.end(), sortByError);
+
+  return samplesAndErrors;
+}
+
 } // ns

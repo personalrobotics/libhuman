@@ -156,6 +156,16 @@ private:
     const aikido::statespace::dart::MetaSkeletonStateSpacePtr& armSpace,
     const dart::dynamics::BodyNodePtr& hand);
 
+  // Sample IK from the given TSR. Helper used for this between left/right arms.
+  std::vector<std::pair<Eigen::VectorXd, double>> sampleTSR(
+    std::shared_ptr<aikido::constraint::dart::TSR>& tsr,
+    const int numSamples,
+    const dart::dynamics::InverseKinematicsPtr& ik,
+    const std::shared_ptr<aikido::constraint::Sampleable>& ikSeedSampler,
+    const dart::dynamics::MetaSkeletonPtr& arm,
+    const aikido::statespace::dart::MetaSkeletonStateSpacePtr& armSpace,
+    const dart::dynamics::BodyNodePtr& hand);
+
   // Correction transform to place human "right side up".
   Eigen::Isometry3d mCorrectionTransform;
 
