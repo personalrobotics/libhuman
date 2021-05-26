@@ -76,8 +76,10 @@ int main(int argc, char** argv)
   const std::string tableURDFUri(
       "package://pr_assets/data/furniture/uw_demo_table.urdf");
 
+  double tableHeight = 0.716475;
+
   Eigen::Isometry3d tablePose = Eigen::Isometry3d::Identity();
-  tablePose.translation() = Eigen::Vector3d(1.0, 0.0, 0);
+  tablePose.translation() = Eigen::Vector3d(0.8, 0.0, -tableHeight);
   Eigen::Matrix3d rot;
   rot = Eigen::AngleAxisd(M_PI_2, Eigen::Vector3d::UnitZ())
         * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY())
