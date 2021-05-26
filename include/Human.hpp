@@ -119,6 +119,9 @@ public:
   // Set the placement of the human in the plane.
   void setPlacementXYZ(const Eigen::Vector3d& placement);
 
+  // Set the full pose of the human.
+  void setPlacementPose(const Eigen::Isometry3d& pose);
+
 private:
   /// Schema description for named configurations YAML file.
   ///

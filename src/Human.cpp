@@ -286,8 +286,15 @@ void Human::setPlacementXYZ(const Eigen::Vector3d& placement)
   Eigen::Isometry3d placementTransform = Eigen::Isometry3d::Identity();
   placementTransform.translation() = placement;
 
+  setPlacementPose(placementTransform);
+}
+
+//==============================================================================
+
+void Human::setPlacementPose(const Eigen::Isometry3d& pose)
+{
   dynamic_cast<dart::dynamics::FreeJoint*>(mRobotSkeleton->getJoint(0))
-    ->setTransform(placementTransform * mCorrectionTransform);
+    ->setTransform(pose * mCorrectionTransform);
 }
 
 //==============================================================================
