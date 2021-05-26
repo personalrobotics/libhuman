@@ -5,6 +5,7 @@
 #include <aikido/statespace/dart/MetaSkeletonStateSpace.hpp>
 #include <dart/dart.hpp>
 #include <dart/utils/urdf/DartLoader.hpp>
+#include <pr_tsr/can.hpp>
 
 #include "Human.hpp"
 
@@ -107,11 +108,20 @@ int main(int argc, char** argv)
     sodaPoses.push_back(pose);
   }
 
+  std::vector<SkeletonPtr> sodaSkeletons;
+  std::vector<std::shared_ptr<aikido::constraint::dart::TSR>> sodaTSRs;
   for (const auto& pose : sodaPoses)
   {
     auto soda = makeBodyFromURDF(resourceRetriever, sodaURDFUri, pose);
     soda->setName(sodaName);
     human.getWorld()->addSkeleton(std::move(soda));
+
+    auto sodaTSR = std::make_shared<aikido::constraint::dart::TSR>(
+      pr_tsr::getDefaultCanTSR());
+    sodaTSR->mT0_w = pose;
+
+    sodaSkeletons.push_back(soda);
+    sodaTSRs.push_back(sodaTSR);
   }
 
   waitForUser("Press [ENTER] to exit: ");
