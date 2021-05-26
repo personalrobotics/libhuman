@@ -166,6 +166,10 @@ private:
     const aikido::statespace::dart::MetaSkeletonStateSpacePtr& armSpace,
     const dart::dynamics::BodyNodePtr& hand);
 
+  // Helper that in-place sorts IK solutions on their pose error.
+  void sortSolutionsByError(
+    std::vector<std::pair<Eigen::VectorXd, double>>& solutionsAndErrors);
+
   // Correction transform to place human "right side up".
   Eigen::Isometry3d mCorrectionTransform;
 

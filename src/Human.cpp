@@ -380,12 +380,7 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::computeIK(
   }
 
   // Ranks IK solutions by final pose error.
-  auto sortByError =
-      [](const std::pair<Eigen::VectorXd, double>& a,
-        const std::pair<Eigen::VectorXd, double>& b) {
-        return a.second < b.second;
-      };
-  std::sort(solutionsAndErrors.begin(), solutionsAndErrors.end(), sortByError);
+  sortSolutionsByError(solutionsAndErrors);
 
   return solutionsAndErrors;
 }
@@ -464,14 +459,22 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleTSR(
   }
 
   // Ranks IK solutions by final pose error.
+  sortSolutionsByError(samplesAndErrors);
+
+  return samplesAndErrors;
+}
+
+//==============================================================================
+
+void Human::sortSolutionsByError(
+  std::vector<std::pair<Eigen::VectorXd, double>>& solutionsAndErrors
+) {
   auto sortByError =
       [](const std::pair<Eigen::VectorXd, double>& a,
         const std::pair<Eigen::VectorXd, double>& b) {
         return a.second < b.second;
       };
-  std::sort(samplesAndErrors.begin(), samplesAndErrors.end(), sortByError);
-
-  return samplesAndErrors;
+  std::sort(solutionsAndErrors.begin(), solutionsAndErrors.end(), sortByError);
 }
 
 } // ns
