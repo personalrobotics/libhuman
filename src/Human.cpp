@@ -371,24 +371,12 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::computeIK(
 
   std::shared_ptr<SampleGenerator> ikSeedGenerator
       = ikSeedSampler->createSampleGenerator();
-  auto seedState = armSpace->createState();
 
   for (int i = 0; i < numSol; i++)
   {
-    if (!ikSeedGenerator->sample(seedState))
-    {
-      std::stringstream message;
-      message << "computeIK: out of seed configs!";
-      throw std::runtime_error(message.str());
-    }
-
-    armSpace->setState(arm.get(), seedState);
-    ik->getTarget()->setTransform(target);
-    ik->solve(true);
-    Eigen::VectorXd curSol = arm->getPositions();
-
-    double curError = computeSE3Distance(hand->getTransform(), target);
-    solutionsAndErrors.push_back(std::make_pair(curSol, curError));
+    std::pair<Eigen::VectorXd, double> solWithError = computeSingleIK(
+      target, ik, ikSeedGenerator, arm, armSpace, hand);
+    solutionsAndErrors.push_back(solWithError);
   }
 
   // Ranks IK solutions by final pose error.
@@ -400,6 +388,34 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::computeIK(
   std::sort(solutionsAndErrors.begin(), solutionsAndErrors.end(), sortByError);
 
   return solutionsAndErrors;
+}
+
+//==============================================================================
+
+std::pair<Eigen::VectorXd, double> Human::computeSingleIK(
+  const Eigen::Isometry3d& target,
+  const InverseKinematicsPtr& ik,
+  const std::shared_ptr<SampleGenerator>& ikSeedGenerator,
+  const dart::dynamics::MetaSkeletonPtr& arm,
+  const aikido::statespace::dart::MetaSkeletonStateSpacePtr& armSpace,
+  const BodyNodePtr& hand
+) {
+  auto seedState = armSpace->createState();
+
+  if (!ikSeedGenerator->sample(seedState))
+  {
+    std::stringstream message;
+    message << "computeSingleIK: out of seed configs!";
+    throw std::runtime_error(message.str());
+  }
+
+  armSpace->setState(arm.get(), seedState);
+  ik->getTarget()->setTransform(target);
+  ik->solve(true);
+  Eigen::VectorXd curSol = arm->getPositions();
+
+  double curError = computeSE3Distance(hand->getTransform(), target);
+  return std::make_pair(curSol, curError);
 }
 
 } // ns

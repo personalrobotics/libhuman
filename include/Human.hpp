@@ -146,6 +146,16 @@ private:
     const aikido::statespace::dart::MetaSkeletonStateSpacePtr& armSpace,
     const dart::dynamics::BodyNodePtr& hand);
 
+  // Helper for the above for just a single solution. Returns the solution along
+  // with its SE(3) error.
+  std::pair<Eigen::VectorXd, double> computeSingleIK(
+    const Eigen::Isometry3d& target,
+    const dart::dynamics::InverseKinematicsPtr& ik,
+    const std::shared_ptr<aikido::constraint::SampleGenerator>& ikSeedGenerator,
+    const dart::dynamics::MetaSkeletonPtr& arm,
+    const aikido::statespace::dart::MetaSkeletonStateSpacePtr& armSpace,
+    const dart::dynamics::BodyNodePtr& hand);
+
   // Correction transform to place human "right side up".
   Eigen::Isometry3d mCorrectionTransform;
 
