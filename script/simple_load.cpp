@@ -79,7 +79,7 @@ int main(int argc, char** argv)
   double tableHeight = 0.716475;
 
   Eigen::Isometry3d tablePose = Eigen::Isometry3d::Identity();
-  tablePose.translation() = Eigen::Vector3d(0.8, 0.0, -tableHeight);
+  tablePose.translation() = Eigen::Vector3d(0.6, 0.0, -tableHeight);
   Eigen::Matrix3d rot;
   rot = Eigen::AngleAxisd(M_PI_2, Eigen::Vector3d::UnitZ())
         * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY())
@@ -91,8 +91,28 @@ int main(int argc, char** argv)
       = std::make_shared<aikido::io::CatkinResourceRetriever>();
   SkeletonPtr table = makeBodyFromURDF(resourceRetriever, tableURDFUri, tablePose);
 
-  // Add all objects to World
   human.getWorld()->addSkeleton(table);
+
+  // Load cans on table.
+  const std::string sodaName{"can"};
+  const std::string sodaURDFUri("package://pr_assets/data/objects/can.urdf");
+
+  std::vector<Eigen::Isometry3d> sodaPoses;
+
+  for (std::size_t i = 0; i < 3; ++i)
+  {
+    auto pose = Eigen::Isometry3d::Identity();
+    pose.translation()
+      = tablePose.translation() + Eigen::Vector3d(i * 0.05, i * 0.10, 0.73);
+    sodaPoses.push_back(pose);
+  }
+
+  for (const auto& pose : sodaPoses)
+  {
+    auto soda = makeBodyFromURDF(resourceRetriever, sodaURDFUri, pose);
+    soda->setName(sodaName);
+    human.getWorld()->addSkeleton(std::move(soda));
+  }
 
   waitForUser("Press [ENTER] to exit: ");
 
