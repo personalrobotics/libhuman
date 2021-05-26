@@ -49,6 +49,16 @@ int main(int argc, char** argv)
   ROS_INFO("Loading Human.");
   human::Human human(env);
 
+  // Set pose of human to "face" table.
+  Eigen::Isometry3d humanPose = Eigen::Isometry3d::Identity();
+  Eigen::Matrix3d humanRot;
+  humanRot = Eigen::AngleAxisd(M_PI_2, Eigen::Vector3d::UnitZ())
+        * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY())
+        * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitX());
+  humanPose.linear() = humanRot;
+
+  human.setPlacementPose(humanPose);
+
   // Start Visualization Topic
   static const std::string topicName = topicName + "/simple_load";
 
