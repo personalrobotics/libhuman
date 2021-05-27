@@ -95,10 +95,10 @@ public:
   aikido::planner::WorldPtr getWorld();
 
   /// Get the right arm
-  aikido::robot::ConcreteManipulatorPtr getRightArm();
+  dart::dynamics::MetaSkeletonPtr getRightArm();
 
   /// Get the left arm
-  aikido::robot::ConcreteManipulatorPtr getLeftArm();
+  dart::dynamics::MetaSkeletonPtr getLeftArm();
 
   /// Get the right hand
   dart::dynamics::BodyNodePtr getRightHand();

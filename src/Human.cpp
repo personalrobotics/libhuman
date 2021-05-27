@@ -214,17 +214,15 @@ aikido::planner::WorldPtr Human::getWorld()
 }
 
 //==============================================================================
-ConcreteManipulatorPtr Human::getRightArm()
+dart::dynamics::MetaSkeletonPtr Human::getRightArm()
 {
-  // TODO!
-  throw std::runtime_error("Human -> getRightArm() not implemented!");
+  return mRightArm;
 }
 
 //==============================================================================
-ConcreteManipulatorPtr Human::getLeftArm()
+dart::dynamics::MetaSkeletonPtr Human::getLeftArm()
 {
-  // TODO!
-  throw std::runtime_error("Human -> getLeftArm() not implemented!");
+  return mLeftArm;
 }
 
 //==============================================================================

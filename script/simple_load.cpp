@@ -124,6 +124,13 @@ int main(int argc, char** argv)
     sodaTSRs.push_back(sodaTSR);
   }
 
+  // Sample from TSR.
+  std::vector<std::pair<Eigen::VectorXd, double>> tsrSamples
+    = human.sampleRightTSR(sodaTSRs.at(0), 10);
+
+  // Set sample.
+  human.getRightArm()->setPositions(tsrSamples.at(0).first);
+
   waitForUser("Press [ENTER] to exit: ");
 
   return 0;
