@@ -281,6 +281,44 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::computeRightIK(
 
 //==============================================================================
 
+std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleLeftTSR(
+  std::shared_ptr<aikido::constraint::dart::TSR>& tsr,
+  const int numSamples
+) {
+  std::shared_ptr<Sampleable> ikSeedSampler
+      = createSampleableBounds(mLeftArmSpace, cloneRNG());
+
+  return sampleTSR(
+    tsr,
+    numSamples,
+    mLeftIk,
+    ikSeedSampler,
+    mLeftArm,
+    mLeftArmSpace,
+    mLeftHand);
+}
+
+//==============================================================================
+
+std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleRightTSR(
+  std::shared_ptr<aikido::constraint::dart::TSR>& tsr,
+  const int numSamples
+) {
+  std::shared_ptr<Sampleable> ikSeedSampler
+      = createSampleableBounds(mRightArmSpace, cloneRNG());
+
+  return sampleTSR(
+    tsr,
+    numSamples,
+    mRightIk,
+    ikSeedSampler,
+    mRightArm,
+    mRightArmSpace,
+    mRightHand);
+}
+
+//==============================================================================
+
 void Human::setPlacementXYZ(const Eigen::Vector3d& placement)
 {
   Eigen::Isometry3d placementTransform = Eigen::Isometry3d::Identity();

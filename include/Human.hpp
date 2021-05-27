@@ -116,6 +116,16 @@ public:
     const Eigen::Isometry3d& target,
     const int numSol);
 
+  /// Sample a TSR with left arm.
+  std::vector<std::pair<Eigen::VectorXd, double>> sampleLeftTSR(
+    std::shared_ptr<aikido::constraint::dart::TSR>& tsr,
+    const int numSamples);
+
+  /// Sample a TSR with right arm.
+  std::vector<std::pair<Eigen::VectorXd, double>> sampleRightTSR(
+    std::shared_ptr<aikido::constraint::dart::TSR>& tsr,
+    const int numSamples);
+
   // Set the placement of the human in the plane.
   void setPlacementXYZ(const Eigen::Vector3d& placement);
 
