@@ -195,6 +195,9 @@ private:
   /// Robot planning state space
   aikido::statespace::dart::MetaSkeletonStateSpacePtr mSpace;
 
+  // MetaSkeleton for human's torso. Used mainly for IK collision checking.
+  dart::dynamics::MetaSkeletonPtr mTorso;
+
   /// Human's left arm
   dart::dynamics::MetaSkeletonPtr mLeftArm;
   aikido::statespace::dart::MetaSkeletonStateSpacePtr mLeftArmSpace;

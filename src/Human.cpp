@@ -20,6 +20,7 @@
 
 namespace human {
 
+using dart::dynamics::Chain;
 using dart::dynamics::SkeletonPtr;
 using dart::dynamics::BodyNodePtr;
 using dart::dynamics::InverseKinematics;
@@ -107,6 +108,11 @@ Human::Human(
   }
 
   mSpace = std::make_shared<MetaSkeletonStateSpace>(mRobotSkeleton.get());
+
+  // Used for IK collision checking.
+  BodyNodePtr hipsNode = getBodyNodeOrThrow(mRobotSkeleton, "Hips");
+  BodyNodePtr chestNode = getBodyNodeOrThrow(mRobotSkeleton, "Chest");
+  mTorso = Chain::create(hipsNode, chestNode, "Torso");
 
   // TODO: Enable this.
   configureArm("L", retriever);
@@ -338,8 +344,6 @@ void Human::configureArm(
     const std::string& armName,
     const dart::common::ResourceRetrieverPtr& retriever)
 {
-  using dart::dynamics::Chain;
-
   std::stringstream armStartName;
   armStartName << armName << "Shoulder";
 
