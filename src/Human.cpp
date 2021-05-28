@@ -20,12 +20,14 @@
 
 namespace human {
 
+using dart::collision::CollisionGroup;
 using dart::dynamics::Chain;
 using dart::dynamics::SkeletonPtr;
 using dart::dynamics::BodyNodePtr;
 using dart::dynamics::InverseKinematics;
 using dart::dynamics::InverseKinematicsPtr;
 
+using aikido::constraint::dart::CollisionFree;
 using aikido::constraint::dart::CollisionFreePtr;
 using aikido::constraint::dart::createSampleableBounds;
 using aikido::constraint::Sampleable;
@@ -193,8 +195,20 @@ CollisionFreePtr Human::getSelfCollisionConstraint(
     const ConstMetaSkeletonStateSpacePtr& space,
     const dart::dynamics::MetaSkeletonPtr& metaSkeleton) const
 {
-  // TODO!
-  throw std::runtime_error("Human -> getSelfCollisionConstraint() not implemented!");
+  // Set up collision constraints.
+  auto collDetector = dart::collision::FCLCollisionDetector::create();
+  auto collTestable
+    = std::make_shared<CollisionFree>(space, metaSkeleton, collDetector);
+
+  std::shared_ptr<CollisionGroup> armGroup =
+      collDetector->createCollisionGroup(metaSkeleton.get());
+
+  std::shared_ptr<CollisionGroup> torsoObstacleGroup =
+    collDetector->createCollisionGroup(mTorso.get());
+
+  collTestable->addPairwiseCheck(armGroup, torsoObstacleGroup);
+
+  return collTestable;
 }
 
 //==============================================================================
