@@ -264,7 +264,7 @@ BodyNodePtr Human::getLeftHand()
 std::vector<std::pair<Eigen::VectorXd, double>> Human::computeLeftIK(
   const Eigen::Isometry3d& target,
   const int numSol,
-  aikido::constraint::TestablePtr constraint)
+  const TestablePtr constraint)
 {
   std::shared_ptr<Sampleable> ikSeedSampler
       = createSampleableBounds(mLeftArmSpace, cloneRNG());
@@ -285,7 +285,7 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::computeLeftIK(
 std::vector<std::pair<Eigen::VectorXd, double>> Human::computeRightIK(
   const Eigen::Isometry3d& target,
   const int numSol,
-  aikido::constraint::TestablePtr constraint)
+  const TestablePtr constraint)
 {
   std::shared_ptr<Sampleable> ikSeedSampler
       = createSampleableBounds(mRightArmSpace, cloneRNG());
@@ -306,7 +306,7 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::computeRightIK(
 std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleLeftTSR(
   std::shared_ptr<aikido::constraint::dart::TSR>& tsr,
   const int numSamples,
-  aikido::constraint::TestablePtr constraint
+  const TestablePtr constraint
 ) {
   std::shared_ptr<Sampleable> ikSeedSampler
       = createSampleableBounds(mLeftArmSpace, cloneRNG());
@@ -327,7 +327,7 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleLeftTSR(
 std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleRightTSR(
   std::shared_ptr<aikido::constraint::dart::TSR>& tsr,
   const int numSamples,
-  aikido::constraint::TestablePtr constraint
+  const TestablePtr constraint
 ) {
   std::shared_ptr<Sampleable> ikSeedSampler
       = createSampleableBounds(mRightArmSpace, cloneRNG());
@@ -424,7 +424,7 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::computeIK(
   const dart::dynamics::MetaSkeletonPtr& arm,
   const aikido::statespace::dart::MetaSkeletonStateSpacePtr& armSpace,
   const BodyNodePtr& hand,
-  aikido::constraint::TestablePtr constraint
+  const TestablePtr constraint
 ) {
   auto saver = MetaSkeletonStateSaver(
     arm, MetaSkeletonStateSaver::Options::POSITIONS);
@@ -486,7 +486,7 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleTSR(
   const dart::dynamics::MetaSkeletonPtr& arm,
   const aikido::statespace::dart::MetaSkeletonStateSpacePtr& armSpace,
   const BodyNodePtr& hand,
-  aikido::constraint::TestablePtr constraint
+  const TestablePtr constraint
 ) {
   std::shared_ptr<SampleGenerator> ikSeedGenerator
       = ikSeedSampler->createSampleGenerator();
@@ -532,7 +532,7 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleTSR(
 
 void Human::filterSortSolutions(
   std::vector<std::pair<Eigen::VectorXd, double>>& solutionsAndErrors,
-  aikido::constraint::TestablePtr constraint,
+  const TestablePtr constraint,
   aikido::statespace::dart::MetaSkeletonStateSpacePtr stateSpace
 ) {
   auto sortByError =
