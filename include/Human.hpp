@@ -119,12 +119,14 @@ public:
   /// Sample a TSR with left arm.
   std::vector<std::pair<Eigen::VectorXd, double>> sampleLeftTSR(
     std::shared_ptr<aikido::constraint::dart::TSR>& tsr,
-    const int numSamples);
+    const int numSamples,
+    aikido::constraint::TestablePtr constraint = nullptr);
 
   /// Sample a TSR with right arm.
   std::vector<std::pair<Eigen::VectorXd, double>> sampleRightTSR(
     std::shared_ptr<aikido::constraint::dart::TSR>& tsr,
-    const int numSamples);
+    const int numSamples,
+    aikido::constraint::TestablePtr constraint = nullptr);
 
   // Set the placement of the human in the plane.
   void setPlacementXYZ(const Eigen::Vector3d& placement);
@@ -174,7 +176,8 @@ private:
     const std::shared_ptr<aikido::constraint::Sampleable>& ikSeedSampler,
     const dart::dynamics::MetaSkeletonPtr& arm,
     const aikido::statespace::dart::MetaSkeletonStateSpacePtr& armSpace,
-    const dart::dynamics::BodyNodePtr& hand);
+    const dart::dynamics::BodyNodePtr& hand,
+    aikido::constraint::TestablePtr constraint);
 
   // Helper that in-place sorts IK solutions on their pose error and filters on
   // collision constraint (if given).

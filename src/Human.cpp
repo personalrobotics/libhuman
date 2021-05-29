@@ -301,7 +301,8 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::computeRightIK(
 
 std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleLeftTSR(
   std::shared_ptr<aikido::constraint::dart::TSR>& tsr,
-  const int numSamples
+  const int numSamples,
+  aikido::constraint::TestablePtr constraint
 ) {
   std::shared_ptr<Sampleable> ikSeedSampler
       = createSampleableBounds(mLeftArmSpace, cloneRNG());
@@ -313,14 +314,16 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleLeftTSR(
     ikSeedSampler,
     mLeftArm,
     mLeftArmSpace,
-    mLeftHand);
+    mLeftHand,
+    constraint);
 }
 
 //==============================================================================
 
 std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleRightTSR(
   std::shared_ptr<aikido::constraint::dart::TSR>& tsr,
-  const int numSamples
+  const int numSamples,
+  aikido::constraint::TestablePtr constraint
 ) {
   std::shared_ptr<Sampleable> ikSeedSampler
       = createSampleableBounds(mRightArmSpace, cloneRNG());
@@ -332,7 +335,8 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleRightTSR(
     ikSeedSampler,
     mRightArm,
     mRightArmSpace,
-    mRightHand);
+    mRightHand,
+    constraint);
 }
 
 //==============================================================================
@@ -476,7 +480,8 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleTSR(
   const std::shared_ptr<Sampleable>& ikSeedSampler,
   const dart::dynamics::MetaSkeletonPtr& arm,
   const aikido::statespace::dart::MetaSkeletonStateSpacePtr& armSpace,
-  const BodyNodePtr& hand
+  const BodyNodePtr& hand,
+  aikido::constraint::TestablePtr constraint
 ) {
   std::shared_ptr<SampleGenerator> ikSeedGenerator
       = ikSeedSampler->createSampleGenerator();
@@ -513,7 +518,7 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleTSR(
   }
 
   // Ranks IK solutions by final pose error.
-  filterSortSolutions(samplesAndErrors);
+  filterSortSolutions(samplesAndErrors, constraint, armSpace);
 
   return samplesAndErrors;
 }
