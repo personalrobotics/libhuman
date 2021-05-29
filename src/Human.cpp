@@ -434,7 +434,7 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::computeIK(
   }
 
   // Ranks IK solutions by final pose error.
-  sortSolutionsByError(solutionsAndErrors);
+  filterSortSolutions(solutionsAndErrors);
 
   return solutionsAndErrors;
 }
@@ -513,15 +513,17 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleTSR(
   }
 
   // Ranks IK solutions by final pose error.
-  sortSolutionsByError(samplesAndErrors);
+  filterSortSolutions(samplesAndErrors);
 
   return samplesAndErrors;
 }
 
 //==============================================================================
 
-void Human::sortSolutionsByError(
-  std::vector<std::pair<Eigen::VectorXd, double>>& solutionsAndErrors
+void Human::filterSortSolutions(
+  std::vector<std::pair<Eigen::VectorXd, double>>& solutionsAndErrors,
+  aikido::constraint::TestablePtr constraint,
+  aikido::statespace::dart::MetaSkeletonStateSpacePtr stateSpace
 ) {
   auto sortByError =
       [](const std::pair<Eigen::VectorXd, double>& a,
@@ -529,6 +531,26 @@ void Human::sortSolutionsByError(
         return a.second < b.second;
       };
   std::sort(solutionsAndErrors.begin(), solutionsAndErrors.end(), sortByError);
+
+  // Also filter using `constraint` (if given).
+  if (constraint && stateSpace)
+  {
+    auto testState = stateSpace->createState();
+
+    std::vector<std::pair<Eigen::VectorXd, double>> filteredSols;
+    for (auto& curPair : solutionsAndErrors)
+    {
+      Eigen::VectorXd curConfig = curPair.first;
+      stateSpace->convertPositionsToState(curConfig, testState);
+
+      if (constraint->isSatisfied(testState))
+      {
+        filteredSols.push_back(curPair);
+      }
+    }
+
+    solutionsAndErrors = filteredSols;
+  }
 }
 
 } // ns
