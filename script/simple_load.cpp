@@ -124,9 +124,14 @@ int main(int argc, char** argv)
     sodaTSRs.push_back(sodaTSR);
   }
 
+  // Create self-collision constraint.
+  aikido::constraint::TestablePtr selfCollConstraint =
+    human.getSelfCollisionConstraint(
+      human.getRightArmSpace(), human.getRightArm());
+
   // Sample from TSR.
   std::vector<std::pair<Eigen::VectorXd, double>> tsrSamples
-    = human.sampleRightTSR(sodaTSRs.at(0), 10);
+    = human.sampleRightTSR(sodaTSRs.at(0), 30, selfCollConstraint);
 
   // Set sample.
   human.getRightArm()->setPositions(tsrSamples.at(0).first);

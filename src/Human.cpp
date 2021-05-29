@@ -246,6 +246,18 @@ dart::dynamics::MetaSkeletonPtr Human::getLeftArm()
 }
 
 //==============================================================================
+aikido::statespace::dart::MetaSkeletonStateSpacePtr Human::getRightArmSpace()
+{
+  return mRightArmSpace;
+}
+
+//==============================================================================
+aikido::statespace::dart::MetaSkeletonStateSpacePtr Human::getLeftArmSpace()
+{
+  return mLeftArmSpace;
+}
+
+//==============================================================================
 BodyNodePtr Human::getRightHand()
 {
   // TODO!

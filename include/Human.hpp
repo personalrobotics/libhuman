@@ -100,6 +100,12 @@ public:
   /// Get the left arm
   dart::dynamics::MetaSkeletonPtr getLeftArm();
 
+  /// Get the right arm state-space.
+  aikido::statespace::dart::MetaSkeletonStateSpacePtr getRightArmSpace();
+
+  /// Get the left arm state-space.
+  aikido::statespace::dart::MetaSkeletonStateSpacePtr getLeftArmSpace();
+
   /// Get the right hand
   dart::dynamics::BodyNodePtr getRightHand();
 
@@ -110,25 +116,25 @@ public:
   std::vector<std::pair<Eigen::VectorXd, double>> computeLeftIK(
     const Eigen::Isometry3d& target,
     const int numSol,
-    const aikido::constraint::TestablePtr constraint = nullptr);
+    const aikido::constraint::TestablePtr constraint);
 
   // Compute IK with right arm.
   std::vector<std::pair<Eigen::VectorXd, double>> computeRightIK(
     const Eigen::Isometry3d& target,
     const int numSol,
-    const aikido::constraint::TestablePtr constraint = nullptr);
+    const aikido::constraint::TestablePtr constraint);
 
   /// Sample a TSR with left arm.
   std::vector<std::pair<Eigen::VectorXd, double>> sampleLeftTSR(
     std::shared_ptr<aikido::constraint::dart::TSR>& tsr,
     const int numSamples,
-    const aikido::constraint::TestablePtr constraint = nullptr);
+    const aikido::constraint::TestablePtr constraint);
 
   /// Sample a TSR with right arm.
   std::vector<std::pair<Eigen::VectorXd, double>> sampleRightTSR(
     std::shared_ptr<aikido::constraint::dart::TSR>& tsr,
     const int numSamples,
-    const aikido::constraint::TestablePtr constraint = nullptr);
+    const aikido::constraint::TestablePtr constraint);
 
   // Set the placement of the human in the plane.
   void setPlacementXYZ(const Eigen::Vector3d& placement);
