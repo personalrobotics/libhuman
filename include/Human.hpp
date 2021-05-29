@@ -109,12 +109,14 @@ public:
   /// Compute IK with left arm.
   std::vector<std::pair<Eigen::VectorXd, double>> computeLeftIK(
     const Eigen::Isometry3d& target,
-    const int numSol);
+    const int numSol,
+    aikido::constraint::TestablePtr constraint = nullptr);
 
   // Compute IK with right arm.
   std::vector<std::pair<Eigen::VectorXd, double>> computeRightIK(
     const Eigen::Isometry3d& target,
-    const int numSol);
+    const int numSol,
+    aikido::constraint::TestablePtr constraint = nullptr);
 
   /// Sample a TSR with left arm.
   std::vector<std::pair<Eigen::VectorXd, double>> sampleLeftTSR(
@@ -156,7 +158,8 @@ private:
     const std::shared_ptr<aikido::constraint::Sampleable>& ikSeedSampler,
     const dart::dynamics::MetaSkeletonPtr& arm,
     const aikido::statespace::dart::MetaSkeletonStateSpacePtr& armSpace,
-    const dart::dynamics::BodyNodePtr& hand);
+    const dart::dynamics::BodyNodePtr& hand,
+    aikido::constraint::TestablePtr constraint);
 
   // Helper for the above for just a single solution. Returns the solution along
   // with its SE(3) error.
@@ -183,8 +186,8 @@ private:
   // collision constraint (if given).
   void filterSortSolutions(
     std::vector<std::pair<Eigen::VectorXd, double>>& solutionsAndErrors,
-    aikido::constraint::TestablePtr constraint = nullptr,
-    aikido::statespace::dart::MetaSkeletonStateSpacePtr stateSpace = nullptr);
+    aikido::constraint::TestablePtr constraint,
+    aikido::statespace::dart::MetaSkeletonStateSpacePtr stateSpace);
 
   // Correction transform to place human "right side up".
   Eigen::Isometry3d mCorrectionTransform;

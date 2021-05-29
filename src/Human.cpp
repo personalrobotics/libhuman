@@ -263,7 +263,8 @@ BodyNodePtr Human::getLeftHand()
 
 std::vector<std::pair<Eigen::VectorXd, double>> Human::computeLeftIK(
   const Eigen::Isometry3d& target,
-  const int numSol)
+  const int numSol,
+  aikido::constraint::TestablePtr constraint)
 {
   std::shared_ptr<Sampleable> ikSeedSampler
       = createSampleableBounds(mLeftArmSpace, cloneRNG());
@@ -275,14 +276,16 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::computeLeftIK(
     ikSeedSampler,
     mLeftArm,
     mLeftArmSpace,
-    mLeftHand);
+    mLeftHand,
+    constraint);
 }
 
 //==============================================================================
 
 std::vector<std::pair<Eigen::VectorXd, double>> Human::computeRightIK(
   const Eigen::Isometry3d& target,
-  const int numSol)
+  const int numSol,
+  aikido::constraint::TestablePtr constraint)
 {
   std::shared_ptr<Sampleable> ikSeedSampler
       = createSampleableBounds(mRightArmSpace, cloneRNG());
@@ -294,7 +297,8 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::computeRightIK(
     ikSeedSampler,
     mRightArm,
     mRightArmSpace,
-    mRightHand);
+    mRightHand,
+    constraint);
 }
 
 //==============================================================================
@@ -419,7 +423,8 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::computeIK(
   const std::shared_ptr<Sampleable>& ikSeedSampler,
   const dart::dynamics::MetaSkeletonPtr& arm,
   const aikido::statespace::dart::MetaSkeletonStateSpacePtr& armSpace,
-  const BodyNodePtr& hand
+  const BodyNodePtr& hand,
+  aikido::constraint::TestablePtr constraint
 ) {
   auto saver = MetaSkeletonStateSaver(
     arm, MetaSkeletonStateSaver::Options::POSITIONS);
@@ -438,7 +443,7 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::computeIK(
   }
 
   // Ranks IK solutions by final pose error.
-  filterSortSolutions(solutionsAndErrors);
+  filterSortSolutions(solutionsAndErrors, constraint, armSpace);
 
   return solutionsAndErrors;
 }
