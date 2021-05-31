@@ -120,6 +120,14 @@ int main(int argc, char** argv)
       pr_tsr::getDefaultCanTSR());
     sodaTSR->mT0_w = pose;
 
+    Eigen::Isometry3d graspTransform = Eigen::Isometry3d::Identity();
+    Eigen::Matrix3d rot;
+    rot = Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ())
+          * Eigen::AngleAxisd(M_PI, Eigen::Vector3d::UnitY())
+          * Eigen::AngleAxisd(M_PI_2, Eigen::Vector3d::UnitX());
+    graspTransform.linear() = rot;
+    sodaTSR->mTw_e.matrix() = graspTransform.matrix();
+
     sodaSkeletons.push_back(soda);
     sodaTSRs.push_back(sodaTSR);
   }
@@ -144,6 +152,8 @@ int main(int argc, char** argv)
   {
     std::cout << "" << std::endl;
     std::cout << "GOOD FINAL STATE" << std::endl;
+    std::cout << tsrSamples.at(0).first.transpose() << std::endl;
+    std::cout << "FOUND " << tsrSamples.size() << " SOLS" << std::endl;
   }
 
   waitForUser("Press [ENTER] to exit: ");
