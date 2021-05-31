@@ -136,6 +136,16 @@ int main(int argc, char** argv)
   // Set sample.
   human.getRightArm()->setPositions(tsrSamples.at(0).first);
 
+  auto testState = human.getRightArmSpace()->createState();
+  human.getRightArmSpace()
+    ->convertPositionsToState(tsrSamples.at(0).first, testState);
+
+  if (selfCollConstraint->isSatisfied(testState))
+  {
+    std::cout << "" << std::endl;
+    std::cout << "GOOD FINAL STATE" << std::endl;
+  }
+
   waitForUser("Press [ENTER] to exit: ");
 
   return 0;
