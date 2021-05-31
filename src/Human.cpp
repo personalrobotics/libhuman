@@ -379,10 +379,10 @@ void Human::configureArm(
     const dart::common::ResourceRetrieverPtr& retriever)
 {
   std::stringstream armStartName;
-  armStartName << armName << "Shoulder";
+  armStartName << armName << "Collar";
 
   std::stringstream armEndName;
-  armEndName << armName << "Forearm";
+  armEndName << armName << "Hand3";
 
   auto armBase = getBodyNodeOrThrow(mRobotSkeleton, armStartName.str());
   auto armEnd = getBodyNodeOrThrow(mRobotSkeleton, armEndName.str());
