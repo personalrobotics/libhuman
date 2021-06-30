@@ -39,8 +39,10 @@ using aikido::statespace::dart::MetaSkeletonStateSaver;
 using aikido::statespace::dart::MetaSkeletonStateSpace;
 using aikido::trajectory::TrajectoryPtr;
 
+//std::string packageSrc = "package://libhuman/robot/man1.urdf";
+std::string packageSrc = "package://libhuman/robot/human_short.urdf";
 const dart::common::Uri humanUrdfUri{
-    "package://libhuman/robot/man1.urdf"};
+    packageSrc};
 const dart::common::Uri namedConfigurationsUri{
     "TODO"};
 
@@ -93,9 +95,16 @@ Human::Human(
     // NOTE: Correction so dude is right-side up.
     mCorrectionTransform = Eigen::Isometry3d::Identity();
     Eigen::Matrix3d rot;
-    rot = Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ())
+    if(packageSrc.find("short") != std::string::npos){
+    	rot = Eigen::AngleAxisd(-M_PI_2, Eigen::Vector3d::UnitZ())
+          * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY())
+          * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitX());
+    }else if (packageSrc.find("man1") != std::string::npos){
+    	rot = Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ())
           * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY())
           * Eigen::AngleAxisd(M_PI_2, Eigen::Vector3d::UnitX());
+    }
+    
     mCorrectionTransform.linear() = rot;
 
     dynamic_cast<dart::dynamics::FreeJoint*>(mRobotSkeleton->getJoint(0))
