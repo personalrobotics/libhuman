@@ -48,7 +48,8 @@ int main(int argc, char** argv)
 
   // Load the human.
   ROS_INFO("Loading Human.");
-  human::Human human(env);
+  std::string modelSrc = "icaros";
+  human::Human human(env, modelSrc);
 
   // Set pose of human to "face" table.
   Eigen::Isometry3d humanPose = Eigen::Isometry3d::Identity();

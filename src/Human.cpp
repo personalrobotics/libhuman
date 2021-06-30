@@ -39,10 +39,11 @@ using aikido::statespace::dart::MetaSkeletonStateSaver;
 using aikido::statespace::dart::MetaSkeletonStateSpace;
 using aikido::trajectory::TrajectoryPtr;
 
-//std::string packageSrc = "package://libhuman/robot/man1.urdf";
-std::string packageSrc = "package://libhuman/robot/human_short.urdf";
+
 const dart::common::Uri humanUrdfUri{
-    packageSrc};
+    "package://libhuman/robot/man1.urdf"};
+const dart::common::Uri shortUrdfUri{
+    "package://libhuman/robot/human_short.urdf"};
 const dart::common::Uri namedConfigurationsUri{
     "TODO"};
 
@@ -77,8 +78,10 @@ double computeSE3Distance(
 //==============================================================================
 Human::Human(
     aikido::planner::WorldPtr env,
+    std::string modelSrc,
     aikido::common::RNG::result_type rngSeed,
     const dart::common::Uri& humanUrdfUri,
+    const dart::common::Uri& shortUrdfUri,
     const dart::common::ResourceRetrieverPtr& retriever)
   : mRng(rngSeed)
   , mWorld(std::move(env))
@@ -89,17 +92,29 @@ Human::Human(
   mRobotSkeleton = mWorld->getSkeleton(name); // TODO(bhou): set as constant
   if (!mRobotSkeleton)
   {
-    dart::utils::DartLoader urdfLoader;
+    /*dart::utils::DartLoader urdfLoader;
     mRobotSkeleton = urdfLoader.parseSkeleton(humanUrdfUri, retriever);
 
     // NOTE: Correction so dude is right-side up.
     mCorrectionTransform = Eigen::Isometry3d::Identity();
     Eigen::Matrix3d rot;
-    if(packageSrc.find("short") != std::string::npos){
+    rot = Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ())
+          * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY())
+          * Eigen::AngleAxisd(M_PI_2, Eigen::Vector3d::UnitX());
+    
+    mCorrectionTransform.linear() = rot;*/
+    dart::utils::DartLoader urdfLoader;
+    
+    mCorrectionTransform = Eigen::Isometry3d::Identity();
+    Eigen::Matrix3d rot;
+    
+    if(modelSrc.find("icaros") != std::string::npos){
+    	mRobotSkeleton = urdfLoader.parseSkeleton(shortUrdfUri, retriever);
     	rot = Eigen::AngleAxisd(-M_PI_2, Eigen::Vector3d::UnitZ())
           * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY())
           * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitX());
-    }else if (packageSrc.find("man1") != std::string::npos){
+    }else if(modelSrc.find("prl") != std::string::npos){
+	mRobotSkeleton = urdfLoader.parseSkeleton(humanUrdfUri, retriever);
     	rot = Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ())
           * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY())
           * Eigen::AngleAxisd(M_PI_2, Eigen::Vector3d::UnitX());

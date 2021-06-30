@@ -21,6 +21,9 @@ namespace human {
 /// URI to retrieve Human URDF from.
 extern const dart::common::Uri humanUrdfUri;
 
+// URI to retrieve Human_short URDF from
+extern const dart::common::Uri shortUrdfUri;
+
 /// URI to retrieve named arm configurations from.
 extern const dart::common::Uri namedConfigurationsUri;
 
@@ -37,11 +40,14 @@ public:
   /// \param[in] rngSeed seed for initializing random generator
   ///        May be nullptr if simulation is true
   /// \param[in] humanUrdfUri Path to Human URDF model.
+  /// \param[in] shortUrdfUri Path to Human short URDF model.
   /// \param[in] retriever Resource retriever for retrieving human.
   Human(
       aikido::planner::WorldPtr env,
+      std::string modelSrc,
       aikido::common::RNG::result_type rngSeed = std::random_device{}(),
       const dart::common::Uri& humanUrdfUri = humanUrdfUri,
+      const dart::common::Uri& shortUrdfUri = shortUrdfUri,
       const dart::common::ResourceRetrieverPtr& retriever
       = std::make_shared<aikido::io::CatkinResourceRetriever>());
 
