@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <string>
 
+#include <aikido/control/KinematicSimulationTrajectoryExecutor.hpp>
 #include <aikido/common/RNG.hpp>
 #include <aikido/constraint/dart/JointStateSpaceHelpers.hpp>
 #include <aikido/io/yaml.hpp>
@@ -16,7 +17,15 @@
 #include <aikido/planner/vectorfield/VectorFieldUtil.hpp>
 #include <dart/common/Timer.hpp>
 #include <dart/utils/urdf/DartLoader.hpp>
+#include <dart/utils/urdf/urdf.hpp>
+#include <srdfdom/model.h>
 #include <urdf/model.h>
+
+#undef dtwarn
+#define dtwarn (::dart::common::colorErr("Warning", __FILE__, __LINE__, 33))
+
+#undef dtinfo
+#define dtinfo (::dart::common::colorMsg("Info", 32))
 
 namespace human {
 
@@ -39,22 +48,30 @@ using aikido::statespace::dart::MetaSkeletonStateSaver;
 using aikido::statespace::dart::MetaSkeletonStateSpace;
 using aikido::trajectory::TrajectoryPtr;
 
+dart::common::Uri defaultPRLUrdfUri{"package://libhuman/robot/man1.urdf"};
+dart::common::Uri defaultPRLSrdfUri{"package://libhuman/robot/man1.srdf"};
+dart::common::Uri defaultVisPRLUrdfUri{"package://libhuman/robot/vis_man1.urdf"};
+dart::common::Uri defaultVisPRLSrdfUri{"package://libhuman/robot/vis_man1.srdf"};
+dart::common::Uri defaultICAROSUrdfUri{"package://libhuman/robot/human_short.urdf"};
+dart::common::Uri defaultICAROSSrdfUri{"package://libhuman/robot/human_short.srdf"};
+dart::common::Uri defaultVisICAROSUrdfUri{"package://libhuman/robot/vis_human_short.urdf"};
+dart::common::Uri defaultVisICAROSSrdfUri{"package://libhuman/robot/vis_human_short.srdf"};
+const dart::common::Uri namedConfigurationsUri{"TODO"};
 
-const dart::common::Uri humanUrdfUri{
-    "package://libhuman/robot/man1.urdf"};
-const dart::common::Uri shortUrdfUri{
-    "package://libhuman/robot/human_short.urdf"};
-const dart::common::Uri namedConfigurationsUri{
-    "TODO"};
+// Arm trajectory controllers that are meant to be used by the human.
+// Needs to be consistent with the configurations in human_launch.
+// Right now there is no such a thing.
+const std::vector<std::string> availableArmTrajectoryExecutorNames{
+    "trajectory_controller",
+    "rewd_trajectory_controller",
+    "move_until_touch_topic_controller"};
 
 namespace {
 BodyNodePtr getBodyNodeOrThrow(
-    const SkeletonPtr& skeleton, const std::string& bodyNodeName)
-{
+    const SkeletonPtr &skeleton, const std::string &bodyNodeName) {
   auto bodyNode = skeleton->getBodyNode(bodyNodeName);
 
-  if (!bodyNode)
-  {
+  if (!bodyNode) {
     std::stringstream message;
     message << "Bodynode [" << bodyNodeName << "] does not exist in skeleton.";
     throw std::runtime_error(message.str());
@@ -64,34 +81,59 @@ BodyNodePtr getBodyNodeOrThrow(
 }
 
 double computeSE3Distance(
-  const Eigen::Isometry3d& firstPose,
-  const Eigen::Isometry3d& secondPose
+    const Eigen::Isometry3d &firstPose,
+    const Eigen::Isometry3d &secondPose
 ) {
   double conversionRatioFromRadiusToMeter = 0.17;
 
   // Borrowed from VFP, should do the same thing as PrPy.
   return aikido::planner::vectorfield::computeGeodesicDistance(
-    firstPose, secondPose, conversionRatioFromRadiusToMeter);
+      firstPose, secondPose, conversionRatioFromRadiusToMeter);
 }
 } // ns
 
 //==============================================================================
 Human::Human(
     aikido::planner::WorldPtr env,
+    bool simulation,
     std::string modelSrc,
     aikido::common::RNG::result_type rngSeed,
-    const dart::common::Uri& humanUrdfUri,
-    const dart::common::Uri& shortUrdfUri,
-    const dart::common::ResourceRetrieverPtr& retriever)
-  : mRng(rngSeed)
-  , mWorld(std::move(env))
-{
+    const std::string &endEffectorName,
+    const std::string &armTrajectoryExecutorName,
+    const ::ros::NodeHandle *node,
+    const dart::common::ResourceRetrieverPtr &retriever)
+    : mSimulation(simulation),
+      mArmTrajectoryExecutorName(armTrajectoryExecutorName),
+      mRng(rngSeed),
+      mWorld(std::move(env)),
+      mEndEffectorName(endEffectorName) {
+  if (std::find(availableArmTrajectoryExecutorNames.begin(),
+                availableArmTrajectoryExecutorNames.end(),
+                mArmTrajectoryExecutorName) == availableArmTrajectoryExecutorNames.end()) {
+    throw std::runtime_error("Arm Trajectory Controller is not valid!");
+  }
+
+  dtinfo << "Arm Executor " << armTrajectoryExecutorName << std::endl;
+
   std::string name = "man1";
+
+  dart::common::Uri humanUrdfUri;
+  dart::common::Uri humanSrdfUri;
+
+  // Given the different model sources, we use different urdf files
+  if (modelSrc == "icaros") {
+    humanUrdfUri = defaultICAROSUrdfUri;
+    humanSrdfUri = defaultICAROSSrdfUri;
+  } else if (modelSrc == "prl") {
+    humanUrdfUri = defaultPRLUrdfUri;
+    humanSrdfUri = defaultPRLSrdfUri;
+  } else {
+    throw std::runtime_error("Given model source " + modelSrc + " is not valid! ");
+  }
 
   // Load Human.
   mRobotSkeleton = mWorld->getSkeleton(name); // TODO(bhou): set as constant
-  if (!mRobotSkeleton)
-  {
+  if (!mRobotSkeleton) {
     /*dart::utils::DartLoader urdfLoader;
     mRobotSkeleton = urdfLoader.parseSkeleton(humanUrdfUri, retriever);
 
@@ -104,36 +146,87 @@ Human::Human(
     
     mCorrectionTransform.linear() = rot;*/
     dart::utils::DartLoader urdfLoader;
-    
+
     mCorrectionTransform = Eigen::Isometry3d::Identity();
     Eigen::Matrix3d rot;
-    
-    if(modelSrc.find("icaros") != std::string::npos){
-    	mRobotSkeleton = urdfLoader.parseSkeleton(shortUrdfUri, retriever);
-    	rot = Eigen::AngleAxisd(-M_PI_2, Eigen::Vector3d::UnitZ())
+
+    // there are two different human urdf files.
+    if (modelSrc == "icaros") {
+      mRobotSkeleton = urdfLoader.parseSkeleton(humanUrdfUri, retriever);
+      rot = Eigen::AngleAxisd(-M_PI_2, Eigen::Vector3d::UnitZ())
           * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY())
           * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitX());
-    }else if(modelSrc.find("prl") != std::string::npos){
-	mRobotSkeleton = urdfLoader.parseSkeleton(humanUrdfUri, retriever);
-    	rot = Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ())
+    } else if (modelSrc == "prl") {
+      mRobotSkeleton = urdfLoader.parseSkeleton(humanUrdfUri, retriever);
+      rot = Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ())
           * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY())
           * Eigen::AngleAxisd(M_PI_2, Eigen::Vector3d::UnitX());
     }
-    
+
     mCorrectionTransform.linear() = rot;
 
-    dynamic_cast<dart::dynamics::FreeJoint*>(mRobotSkeleton->getJoint(0))
-      ->setTransform(mCorrectionTransform);
+    dynamic_cast<dart::dynamics::FreeJoint *>(mRobotSkeleton->getJoint(0))
+        ->setTransform(mCorrectionTransform);
 
     mWorld->addSkeleton(mRobotSkeleton);
   }
 
-  if (!mRobotSkeleton)
-  {
+  if (!mRobotSkeleton) {
     throw std::runtime_error("Unable to load Human model.");
   }
 
+  // Define the collision detector and groups
+  auto collisionDetector = dart::collision::FCLCollisionDetector::create();
+  auto selfCollisionFilter = std::make_shared<dart::collision::BodyNodeCollisionFilter>();
+
+  urdf::Model urdfModel;
+  std::string humanUrdfXMLString = retriever->readAll(humanUrdfUri);
+  urdfModel.initString(humanUrdfXMLString);
+
+  srdf::Model srdfModel;
+  std::string humanSrdfXMLString = retriever->readAll(humanSrdfUri);
+  srdfModel.initString(urdfModel, humanSrdfXMLString);
+  auto disabledCollisions = srdfModel.getDisabledCollisionPairs();
+
+  for (auto disabledPair : disabledCollisions) {
+    auto body0 = getBodyNodeOrThrow(mRobotSkeleton, disabledPair.link1_);
+    auto body1 = getBodyNodeOrThrow(mRobotSkeleton, disabledPair.link2_);
+
+#ifndef NDEBUG
+    dtinfo << "Disabled collisions between " << disabledPair.link1_ << " and " << disabledPair.link2_ << std::endl;
+#endif
+
+    selfCollisionFilter->addBodyNodePairToBlackList(body0, body1);
+  }
+
   mSpace = std::make_shared<MetaSkeletonStateSpace>(mRobotSkeleton.get());
+
+  mTrajectoryExecutor = createTrajectoryExecutor();
+
+  // Setting arm base and end names
+  mArmBaseName = "human/shoulder_center";
+  mArmEndName = "human/right_wrist";
+  mHandBaseName = "human/right_hand";
+
+  // Setup the arm
+  mRightArm = configureRightArm(
+      "human_right_arm",
+      retriever,
+      mTrajectoryExecutor,
+      collisionDetector,
+      selfCollisionFilter);
+
+  mRightArmSpace = mRightArm->getStateSpace();
+
+  // Set up the concrete robot from the meta skeleton
+  mHuman = std::make_shared<aikido::robot::ConcreteRobot>(
+      "Human",
+      mRobotSkeleton,
+      mSimulation,
+      cloneRNG(),
+      mTrajectoryExecutor,
+      collisionDetector,
+      selfCollisionFilter);
 
   // Used for IK collision checking.
   BodyNodePtr hipsNode = getBodyNodeOrThrow(mRobotSkeleton, "Hips");
@@ -142,7 +235,7 @@ Human::Human(
 
   // TODO: Enable this.
   configureArm("L", retriever);
-  configureArm("R", retriever);
+//  configureArm("R", retriever);  commented out for now
 
   // TODO: Enable this again.
   // // Load the named configurations
@@ -152,83 +245,260 @@ Human::Human(
 
   // TODO!
 
-  // NOTE: Just try and literally load the URDF for now.
-  std::cout << "LOADED HUMAN URDF YAY :)" << std::endl;
+  mThread = std::make_unique<aikido::common::ExecutorThread>(std::bind(&Human::update, this),
+                                                             threadExecutionCycle);
+}
+
+//===================================================================================================================
+Human::Human(aikido::planner::WorldPtr env,
+             bool simulation,
+             std::string name,
+             const Eigen::Isometry3d &transform,
+             bool vis,
+             std::string modelSrc,
+             aikido::common::RNG::result_type rngSeed,
+             const std::string &endEffectorName,
+             const std::string &armTrajectoryExecutorName,
+             const ::ros::NodeHandle *node,
+             const dart::common::ResourceRetrieverPtr &retriever) :
+    mSimulation(simulation),
+    mArmTrajectoryExecutorName(armTrajectoryExecutorName),
+    mRng(rngSeed),
+    mWorld(std::move(env)),
+    mEndEffectorName(endEffectorName) {
+  if (std::find(availableArmTrajectoryExecutorNames.begin(),
+                availableArmTrajectoryExecutorNames.end(),
+                mArmTrajectoryExecutorName) == availableArmTrajectoryExecutorNames.end()) {
+    throw std::runtime_error("Arm Trajectory Controller is not valid!");
+  }
+
+  dtinfo << "Arm Executor " << armTrajectoryExecutorName << std::endl;
+
+  dart::common::Uri humanUrdfUri;
+  dart::common::Uri humanSrdfUri;
+
+  if (vis) {
+    std::cout << "vis is true" << std::endl;
+    // Given the different model sources, we use different urdf files
+    if (modelSrc == "icaros") {
+      humanUrdfUri = defaultVisICAROSUrdfUri;
+      humanSrdfUri = defaultVisICAROSSrdfUri;
+    } else if (modelSrc == "prl") {
+      humanUrdfUri = defaultVisPRLUrdfUri;
+      humanSrdfUri = defaultVisPRLSrdfUri;
+    } else {
+      throw std::runtime_error("Given model source " + modelSrc + " is not valid!");
+    }
+  } else {
+    // Given the different model sources, we use different urdf files
+    if (modelSrc == "icaros") {
+      humanUrdfUri = defaultICAROSUrdfUri;
+      humanSrdfUri = defaultICAROSSrdfUri;
+    } else if (modelSrc == "prl") {
+      humanUrdfUri = defaultPRLUrdfUri;
+      humanSrdfUri = defaultPRLSrdfUri;
+    } else {
+      throw std::runtime_error("Given model source " + modelSrc + " is not valid!");
+    }
+  }
+
+//  std::string name = "man1";
+
+  // Load Human.
+  mRobotSkeleton = mWorld->getSkeleton(name); // TODO(bhou): set as constant
+  if (!mRobotSkeleton) {
+    /*dart::utils::DartLoader urdfLoader;
+    mRobotSkeleton = urdfLoader.parseSkeleton(humanUrdfUri, retriever);
+
+    // NOTE: Correction so dude is right-side up.
+    mCorrectionTransform = Eigen::Isometry3d::Identity();
+    Eigen::Matrix3d rot;
+    rot = Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ())
+          * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY())
+          * Eigen::AngleAxisd(M_PI_2, Eigen::Vector3d::UnitX());
+
+    mCorrectionTransform.linear() = rot;*/
+    dart::utils::DartLoader urdfLoader;
+
+    mCorrectionTransform = Eigen::Isometry3d::Identity();
+    Eigen::Matrix3d rot;
+
+    // there are two different human urdf files.
+    if (modelSrc == "icaros") {
+      mRobotSkeleton = urdfLoader.parseSkeleton(humanUrdfUri, retriever);
+      rot = Eigen::AngleAxisd(-M_PI_2, Eigen::Vector3d::UnitZ())
+          * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY())
+          * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitX());
+    } else if (modelSrc == "prl") {
+      mRobotSkeleton = urdfLoader.parseSkeleton(humanUrdfUri, retriever);
+      rot = Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ())
+          * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY())
+          * Eigen::AngleAxisd(M_PI_2, Eigen::Vector3d::UnitX());
+    }
+
+    mCorrectionTransform.linear() = rot;
+
+//    dynamic_cast<dart::dynamics::FreeJoint *>(mRobotSkeleton->getJoint(0))
+//        ->setTransform(mCorrectionTransform);
+
+    dynamic_cast<dart::dynamics::FreeJoint *>(mRobotSkeleton->getJoint(0))
+        ->setTransform(transform);
+
+    mWorld->addSkeleton(mRobotSkeleton);
+  }
+
+  if (!mRobotSkeleton) {
+    throw std::runtime_error("Unable to load Human model.");
+  }
+
+  // Define the collision detector and groups
+  auto collisionDetector = dart::collision::FCLCollisionDetector::create();
+  auto selfCollisionFilter = std::make_shared<dart::collision::BodyNodeCollisionFilter>();
+
+  urdf::Model urdfModel;
+  std::string humanUrdfXMLString = retriever->readAll(humanUrdfUri);
+  urdfModel.initString(humanUrdfXMLString);
+
+  srdf::Model srdfModel;
+  std::string humanSrdfXMLString = retriever->readAll(humanSrdfUri);
+  srdfModel.initString(urdfModel, humanSrdfXMLString);
+  auto disabledCollisions = srdfModel.getDisabledCollisionPairs();
+
+  for (auto disabledPair : disabledCollisions) {
+    auto body0 = getBodyNodeOrThrow(mRobotSkeleton, disabledPair.link1_);
+    auto body1 = getBodyNodeOrThrow(mRobotSkeleton, disabledPair.link2_);
+
+#ifndef NDEBUG
+    dtinfo << "Disabled collisions between " << disabledPair.link1_ << " and " << disabledPair.link2_ << std::endl;
+#endif
+
+    selfCollisionFilter->addBodyNodePairToBlackList(body0, body1);
+  }
+
+  mSpace = std::make_shared<MetaSkeletonStateSpace>(mRobotSkeleton.get());
+
+  mTrajectoryExecutor = createTrajectoryExecutor();
+
+  // Setting arm base and end names
+  mArmBaseName = "human/shoulder_center";
+  mArmEndName = "human/right_wrist";
+  mHandBaseName = "human/right_hand";
+
+  // Setup the arm
+  mRightArm = configureRightArm(
+      "human_right_arm",
+      retriever,
+      mTrajectoryExecutor,
+      collisionDetector,
+      selfCollisionFilter);
+
+  mRightArmSpace = mRightArm->getStateSpace();
+
+  // Set up the concrete robot from the meta skeleton
+  mHuman = std::make_shared<aikido::robot::ConcreteRobot>(
+      "Human",
+      mRobotSkeleton,
+      mSimulation,
+      cloneRNG(),
+      mTrajectoryExecutor,
+      collisionDetector,
+      selfCollisionFilter);
+
+  // Used for IK collision checking.
+  BodyNodePtr hipsNode = getBodyNodeOrThrow(mRobotSkeleton, "Hips");
+  BodyNodePtr chestNode = getBodyNodeOrThrow(mRobotSkeleton, "Chest");
+  mTorso = Chain::create(hipsNode, chestNode, "Torso");
+
+  // TODO: Enable this.
+  configureArm("L", retriever);
+//  configureArm("R", retriever);  commented out for now
+
+  // TODO: Enable this again.
+  // // Load the named configurations
+  // auto namedConfigurations = parseYAMLToNamedConfigurations(
+  //     aikido::io::loadYAML(namedConfigurationsUri, retriever));
+  // mRobot->setNamedConfigurations(namedConfigurations);
+
+  // TODO!
+
+  mThread = std::make_unique<aikido::common::ExecutorThread>(std::bind(&Human::update, this),
+                                                             threadExecutionCycle);
+}
+
+void Human::update() {
+  step(std::chrono::system_clock::now());
+}
+
+std::shared_ptr<aikido::control::TrajectoryExecutor> Human::createTrajectoryExecutor() {
+  if (mSimulation) {
+    return std::make_shared<aikido::control::KinematicSimulationTrajectoryExecutor>(mRobotSkeleton);
+  }
 }
 
 //==============================================================================
-std::future<void> Human::executeTrajectory(const TrajectoryPtr& trajectory) const
-{
+std::future<void> Human::executeTrajectory(const TrajectoryPtr &trajectory) const {
   // TODO!
   throw std::runtime_error("Human -> executeTrajectory() not implemented!");
 }
 
 //==============================================================================
 boost::optional<Eigen::VectorXd> Human::getNamedConfiguration(
-    const std::string& name) const
-{
+    const std::string &name) const {
   // TODO!
   throw std::runtime_error("Human -> getNamedConfiguration() not implemented!");
 }
 
 //==============================================================================
 void Human::setNamedConfigurations(
-    std::unordered_map<std::string, const Eigen::VectorXd> namedConfigurations)
-{
+    std::unordered_map<std::string, const Eigen::VectorXd> namedConfigurations) {
   // TODO!
   throw std::runtime_error("Human -> setNamedConfiguration() not implemented!");
 }
 
 //==============================================================================
-std::string Human::getName() const
-{
+std::string Human::getName() const {
   // TODO!
   throw std::runtime_error("Human -> getName() not implemented!");
 }
 
 //==============================================================================
-dart::dynamics::ConstMetaSkeletonPtr Human::getMetaSkeleton() const
-{
+dart::dynamics::ConstMetaSkeletonPtr Human::getMetaSkeleton() const {
   // TODO!
   throw std::runtime_error("Human -> getMetaSkeleton() not implemented!");
 }
 
 //==============================================================================
-ConstMetaSkeletonStateSpacePtr Human::getStateSpace() const
-{
+ConstMetaSkeletonStateSpacePtr Human::getStateSpace() const {
   // TODO!
   throw std::runtime_error("Human -> getStateSpace() not implemented!");
 }
 
 //==============================================================================
-void Human::setRoot(Robot* robot)
-{
+void Human::setRoot(Robot *robot) {
   // TODO!
   throw std::runtime_error("Human -> setRoot() not implemented!");
 }
 
 //==============================================================================
-void Human::step(const std::chrono::system_clock::time_point& timepoint)
-{
+void Human::step(const std::chrono::system_clock::time_point &timepoint) {
   // TODO!
   throw std::runtime_error("Human -> step() not implemented!");
 }
 
 //==============================================================================
 CollisionFreePtr Human::getSelfCollisionConstraint(
-    const ConstMetaSkeletonStateSpacePtr& space,
-    const dart::dynamics::MetaSkeletonPtr& metaSkeleton) const
-{
+    const ConstMetaSkeletonStateSpacePtr &space,
+    const dart::dynamics::MetaSkeletonPtr &metaSkeleton) const {
   // Set up collision constraints.
   auto collDetector = dart::collision::FCLCollisionDetector::create();
   auto collTestable
-    = std::make_shared<CollisionFree>(space, metaSkeleton, collDetector);
+      = std::make_shared<CollisionFree>(space, metaSkeleton, collDetector);
 
   std::shared_ptr<CollisionGroup> armGroup =
       collDetector->createCollisionGroup(metaSkeleton.get());
 
   std::shared_ptr<CollisionGroup> torsoObstacleGroup =
-    collDetector->createCollisionGroup(mTorso.get());
+      collDetector->createCollisionGroup(mTorso.get());
 
   collTestable->addPairwiseCheck(armGroup, torsoObstacleGroup);
 
@@ -237,152 +507,172 @@ CollisionFreePtr Human::getSelfCollisionConstraint(
 
 //==============================================================================
 TestablePtr Human::getFullCollisionConstraint(
-    const ConstMetaSkeletonStateSpacePtr& space,
-    const dart::dynamics::MetaSkeletonPtr& metaSkeleton,
-    const CollisionFreePtr& collisionFree) const
-{
+    const ConstMetaSkeletonStateSpacePtr &space,
+    const dart::dynamics::MetaSkeletonPtr &metaSkeleton,
+    const CollisionFreePtr &collisionFree) const {
   // TODO!
   throw std::runtime_error("Human -> getFullCollisionConstraint() not implemented!");
 }
 
 //==============================================================================
-std::unique_ptr<aikido::common::RNG> Human::cloneRNG()
-{
+std::unique_ptr<aikido::common::RNG> Human::cloneRNG() {
   return std::move(cloneRNGFrom(mRng)[0]);
 }
 
 //==============================================================================
-aikido::planner::WorldPtr Human::getWorld()
-{
+aikido::planner::WorldPtr Human::getWorld() {
   return mWorld;
 }
 
 //==============================================================================
-dart::dynamics::MetaSkeletonPtr Human::getRightArm()
-{
+aikido::robot::ConcreteManipulatorPtr Human::getRightArm() {
   return mRightArm;
 }
 
 //==============================================================================
-dart::dynamics::MetaSkeletonPtr Human::getLeftArm()
-{
+dart::dynamics::MetaSkeletonPtr Human::getLeftArm() {
   return mLeftArm;
 }
 
 //==============================================================================
-aikido::statespace::dart::MetaSkeletonStateSpacePtr Human::getRightArmSpace()
-{
+aikido::statespace::dart::MetaSkeletonStateSpacePtr Human::getRightArmSpace() {
   return mRightArmSpace;
 }
 
 //==============================================================================
-aikido::statespace::dart::MetaSkeletonStateSpacePtr Human::getLeftArmSpace()
-{
+aikido::statespace::dart::MetaSkeletonStateSpacePtr Human::getLeftArmSpace() {
   return mLeftArmSpace;
 }
 
 //==============================================================================
-BodyNodePtr Human::getRightHand()
-{
+BodyNodePtr Human::getRightHand() {
   // TODO!
   throw std::runtime_error("Human -> getRightHand() not implemented!");
 }
 
 //==============================================================================
-BodyNodePtr Human::getLeftHand()
-{
+BodyNodePtr Human::getLeftHand() {
   // TODO!
   throw std::runtime_error("Human -> getLeftHand() not implemented!");
 }
 
 //==============================================================================
+aikido::robot::ConcreteManipulatorPtr Human::configureRightArm(const std::string &armName,
+                                                               const dart::common::ResourceRetrieverPtr &retriever,
+                                                               const aikido::control::TrajectoryExecutorPtr &executor,
+                                                               dart::collision::CollisionDetectorPtr collisionDetector,
+                                                               const std::shared_ptr<dart::collision::BodyNodeCollisionFilter> &selfCollisionFilter) {
+  auto armBase = getBodyNodeOrThrow(mRobotSkeleton, mArmBaseName);
+  auto armEnd = getBodyNodeOrThrow(mRobotSkeleton, mArmEndName);
+
+  auto arm = dart::dynamics::Chain::create(armBase, armEnd, armName);
+  auto armSpace = std::make_shared<aikido::statespace::dart::MetaSkeletonStateSpace>(arm.get());
+
+  mHand = std::make_shared<HumanHand>(armName, mSimulation,
+                                      getBodyNodeOrThrow(mRobotSkeleton, mHandBaseName),
+                                      getBodyNodeOrThrow(mRobotSkeleton, mEndEffectorName),
+                                      selfCollisionFilter,
+                                      mNode.get(),
+                                      retriever);
+
+  auto manipulatorRobot = std::make_shared<aikido::robot::ConcreteRobot>(
+      armName,
+      arm,
+      mSimulation,
+      cloneRNG(),
+      executor,
+      collisionDetector,
+      selfCollisionFilter);
+
+  auto manipulator = std::make_shared<aikido::robot::ConcreteManipulator>(manipulatorRobot, mHand);
+  return manipulator;
+}
+
+//==============================================================================
 
 std::vector<std::pair<Eigen::VectorXd, double>> Human::computeLeftIK(
-  const Eigen::Isometry3d& target,
-  const int numSol,
-  const TestablePtr constraint)
-{
+    const Eigen::Isometry3d &target,
+    const int numSol,
+    const TestablePtr constraint) {
   std::shared_ptr<Sampleable> ikSeedSampler
       = createSampleableBounds(mLeftArmSpace, cloneRNG());
 
   return computeIK(
-    target,
-    numSol,
-    mLeftIk,
-    ikSeedSampler,
-    mLeftArm,
-    mLeftArmSpace,
-    mLeftHand,
-    constraint);
+      target,
+      numSol,
+      mLeftIk,
+      ikSeedSampler,
+      mLeftArm,
+      mLeftArmSpace,
+      mLeftHand,
+      constraint);
 }
 
 //==============================================================================
 
 std::vector<std::pair<Eigen::VectorXd, double>> Human::computeRightIK(
-  const Eigen::Isometry3d& target,
-  const int numSol,
-  const TestablePtr constraint)
-{
+    const Eigen::Isometry3d &target,
+    const int numSol,
+    const TestablePtr constraint) {
   std::shared_ptr<Sampleable> ikSeedSampler
       = createSampleableBounds(mRightArmSpace, cloneRNG());
 
   return computeIK(
-    target,
-    numSol,
-    mRightIk,
-    ikSeedSampler,
-    mRightArm,
-    mRightArmSpace,
-    mRightHand,
-    constraint);
+      target,
+      numSol,
+      mRightIk,
+      ikSeedSampler,
+      mRightArm->getMetaSkeleton(),
+      mRightArmSpace,
+      mRightHand,
+      constraint);
 }
 
 //==============================================================================
 
 std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleLeftTSR(
-  std::shared_ptr<aikido::constraint::dart::TSR>& tsr,
-  const int numSamples,
-  const TestablePtr constraint
+    std::shared_ptr<aikido::constraint::dart::TSR> &tsr,
+    const int numSamples,
+    const TestablePtr constraint
 ) {
   std::shared_ptr<Sampleable> ikSeedSampler
       = createSampleableBounds(mLeftArmSpace, cloneRNG());
 
   return sampleTSR(
-    tsr,
-    numSamples,
-    mLeftIk,
-    ikSeedSampler,
-    mLeftArm,
-    mLeftArmSpace,
-    mLeftHand,
-    constraint);
+      tsr,
+      numSamples,
+      mLeftIk,
+      ikSeedSampler,
+      mLeftArm,
+      mLeftArmSpace,
+      mLeftHand,
+      constraint);
 }
 
 //==============================================================================
 
 std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleRightTSR(
-  std::shared_ptr<aikido::constraint::dart::TSR>& tsr,
-  const int numSamples,
-  const TestablePtr constraint
+    std::shared_ptr<aikido::constraint::dart::TSR> &tsr,
+    const int numSamples,
+    const TestablePtr constraint
 ) {
   std::shared_ptr<Sampleable> ikSeedSampler
       = createSampleableBounds(mRightArmSpace, cloneRNG());
 
   return sampleTSR(
-    tsr,
-    numSamples,
-    mRightIk,
-    ikSeedSampler,
-    mRightArm,
-    mRightArmSpace,
-    mRightHand,
-    constraint);
+      tsr,
+      numSamples,
+      mRightIk,
+      ikSeedSampler,
+      mRightArm->getMetaSkeleton(),
+      mRightArmSpace,
+      mRightHand,
+      constraint);
 }
 
 //==============================================================================
 
-void Human::setPlacementXYZ(const Eigen::Vector3d& placement)
-{
+void Human::setPlacementXYZ(const Eigen::Vector3d &placement) {
   Eigen::Isometry3d placementTransform = Eigen::Isometry3d::Identity();
   placementTransform.translation() = placement;
 
@@ -391,17 +681,15 @@ void Human::setPlacementXYZ(const Eigen::Vector3d& placement)
 
 //==============================================================================
 
-void Human::setPlacementPose(const Eigen::Isometry3d& pose)
-{
-  dynamic_cast<dart::dynamics::FreeJoint*>(mRobotSkeleton->getJoint(0))
-    ->setTransform(pose * mCorrectionTransform);
+void Human::setPlacementPose(const Eigen::Isometry3d &pose) {
+  dynamic_cast<dart::dynamics::FreeJoint *>(mRobotSkeleton->getJoint(0))
+      ->setTransform(pose * mCorrectionTransform);
 }
 
 //==============================================================================
 void Human::configureArm(
-    const std::string& armName,
-    const dart::common::ResourceRetrieverPtr& retriever)
-{
+    const std::string &armName,
+    const dart::common::ResourceRetrieverPtr &retriever) {
   std::stringstream armStartName;
   armStartName << armName << "Collar";
 
@@ -437,10 +725,11 @@ void Human::configureArm(
     mLeftHand = handNode;
     mLeftIk = ikSolver;
   } else if (armName == "R") {
-    mRightArm = arm;
-    mRightArmSpace = armSpace;
-    mRightHand = handNode;
-    mRightIk = ikSolver;
+    // no R
+//    mRightArm = arm;
+//    mRightArmSpace = armSpace;
+//    mRightHand = handNode;
+//    mRightIk = ikSolver;
   } else {
     std::stringstream message;
     message << "configureArm: armName not recognized!";
@@ -453,17 +742,17 @@ void Human::configureArm(
 //==============================================================================
 
 std::vector<std::pair<Eigen::VectorXd, double>> Human::computeIK(
-  const Eigen::Isometry3d& target,
-  const int numSol,
-  const InverseKinematicsPtr& ik,
-  const std::shared_ptr<Sampleable>& ikSeedSampler,
-  const dart::dynamics::MetaSkeletonPtr& arm,
-  const aikido::statespace::dart::MetaSkeletonStateSpacePtr& armSpace,
-  const BodyNodePtr& hand,
-  const TestablePtr constraint
+    const Eigen::Isometry3d &target,
+    const int numSol,
+    const InverseKinematicsPtr &ik,
+    const std::shared_ptr<Sampleable> &ikSeedSampler,
+    const dart::dynamics::MetaSkeletonPtr &arm,
+    const aikido::statespace::dart::MetaSkeletonStateSpacePtr &armSpace,
+    const BodyNodePtr &hand,
+    const TestablePtr constraint
 ) {
   auto saver = MetaSkeletonStateSaver(
-    arm, MetaSkeletonStateSaver::Options::POSITIONS);
+      arm, MetaSkeletonStateSaver::Options::POSITIONS);
   DART_UNUSED(saver);
 
   std::vector<std::pair<Eigen::VectorXd, double>> solutionsAndErrors;
@@ -471,10 +760,9 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::computeIK(
   std::shared_ptr<SampleGenerator> ikSeedGenerator
       = ikSeedSampler->createSampleGenerator();
 
-  for (int i = 0; i < numSol; i++)
-  {
+  for (int i = 0; i < numSol; i++) {
     std::pair<Eigen::VectorXd, double> solWithError = computeSingleIK(
-      target, ik, ikSeedGenerator, arm, armSpace, hand);
+        target, ik, ikSeedGenerator, arm, armSpace, hand);
     solutionsAndErrors.push_back(solWithError);
   }
 
@@ -487,17 +775,16 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::computeIK(
 //==============================================================================
 
 std::pair<Eigen::VectorXd, double> Human::computeSingleIK(
-  const Eigen::Isometry3d& target,
-  const InverseKinematicsPtr& ik,
-  const std::shared_ptr<SampleGenerator>& ikSeedGenerator,
-  const dart::dynamics::MetaSkeletonPtr& arm,
-  const aikido::statespace::dart::MetaSkeletonStateSpacePtr& armSpace,
-  const BodyNodePtr& hand
+    const Eigen::Isometry3d &target,
+    const InverseKinematicsPtr &ik,
+    const std::shared_ptr<SampleGenerator> &ikSeedGenerator,
+    const dart::dynamics::MetaSkeletonPtr &arm,
+    const aikido::statespace::dart::MetaSkeletonStateSpacePtr &armSpace,
+    const BodyNodePtr &hand
 ) {
   auto seedState = armSpace->createState();
 
-  if (!ikSeedGenerator->sample(seedState))
-  {
+  if (!ikSeedGenerator->sample(seedState)) {
     std::stringstream message;
     message << "computeSingleIK: out of seed configs!";
     throw std::runtime_error(message.str());
@@ -515,14 +802,14 @@ std::pair<Eigen::VectorXd, double> Human::computeSingleIK(
 //==============================================================================
 
 std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleTSR(
-  std::shared_ptr<aikido::constraint::dart::TSR>& tsr,
-  const int numSamples,
-  const InverseKinematicsPtr& ik,
-  const std::shared_ptr<Sampleable>& ikSeedSampler,
-  const dart::dynamics::MetaSkeletonPtr& arm,
-  const aikido::statespace::dart::MetaSkeletonStateSpacePtr& armSpace,
-  const BodyNodePtr& hand,
-  const TestablePtr constraint
+    std::shared_ptr<aikido::constraint::dart::TSR> &tsr,
+    const int numSamples,
+    const InverseKinematicsPtr &ik,
+    const std::shared_ptr<Sampleable> &ikSeedSampler,
+    const dart::dynamics::MetaSkeletonPtr &arm,
+    const aikido::statespace::dart::MetaSkeletonStateSpacePtr &armSpace,
+    const BodyNodePtr &hand,
+    const TestablePtr constraint
 ) {
   std::shared_ptr<SampleGenerator> ikSeedGenerator
       = ikSeedSampler->createSampleGenerator();
@@ -532,20 +819,18 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleTSR(
   // Used to actually sample poses.
   std::unique_ptr<SampleGenerator> poseSampler = tsr->createSampleGenerator();
 
-  if (poseSampler->getNumSamples() != SampleGenerator::NO_LIMIT)
-  {
+  if (poseSampler->getNumSamples() != SampleGenerator::NO_LIMIT) {
     throw std::invalid_argument("sampleTSR: TSR does not have inf samples!");
   }
 
   using aikido::statespace::SE3;
   std::shared_ptr<const SE3> poseStateSpace
-    = std::dynamic_pointer_cast<const SE3>(poseSampler->getStateSpace());
+      = std::dynamic_pointer_cast<const SE3>(poseSampler->getStateSpace());
   if (!poseStateSpace)
     throw std::invalid_argument("sampleTSR: TSR does not operate on SE3!");
 
   std::vector<std::pair<Eigen::VectorXd, double>> samplesAndErrors;
-  for (int poseIndex = 0; poseIndex < numSamples; poseIndex++)
-  {
+  for (int poseIndex = 0; poseIndex < numSamples; poseIndex++) {
     auto poseState = poseStateSpace->createState();
     // Assert that we can still sample poses.
     if (!poseSampler->sample(poseState))
@@ -553,7 +838,7 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleTSR(
 
     Eigen::Isometry3d curTargetPose = poseState.getIsometry();
     std::pair<Eigen::VectorXd, double> sampleWithError = computeSingleIK(
-      curTargetPose, ik, ikSeedGenerator, arm, armSpace, hand);
+        curTargetPose, ik, ikSeedGenerator, arm, armSpace, hand);
 
     samplesAndErrors.push_back(sampleWithError);
   }
@@ -567,30 +852,27 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleTSR(
 //==============================================================================
 
 void Human::filterSortSolutions(
-  std::vector<std::pair<Eigen::VectorXd, double>>& solutionsAndErrors,
-  const TestablePtr constraint,
-  aikido::statespace::dart::MetaSkeletonStateSpacePtr stateSpace
+    std::vector<std::pair<Eigen::VectorXd, double>> &solutionsAndErrors,
+    const TestablePtr constraint,
+    aikido::statespace::dart::MetaSkeletonStateSpacePtr stateSpace
 ) {
   auto sortByError =
-      [](const std::pair<Eigen::VectorXd, double>& a,
-        const std::pair<Eigen::VectorXd, double>& b) {
+      [](const std::pair<Eigen::VectorXd, double> &a,
+         const std::pair<Eigen::VectorXd, double> &b) {
         return a.second < b.second;
       };
   std::sort(solutionsAndErrors.begin(), solutionsAndErrors.end(), sortByError);
 
   // Also filter using `constraint` (if given).
-  if (constraint && stateSpace)
-  {
+  if (constraint && stateSpace) {
     auto testState = stateSpace->createState();
 
     std::vector<std::pair<Eigen::VectorXd, double>> filteredSols;
-    for (auto& curPair : solutionsAndErrors)
-    {
+    for (auto &curPair : solutionsAndErrors) {
       Eigen::VectorXd curConfig = curPair.first;
       stateSpace->convertPositionsToState(curConfig, testState);
 
-      if (constraint->isSatisfied(testState))
-      {
+      if (constraint->isSatisfied(testState)) {
         filteredSols.push_back(curPair);
       }
     }

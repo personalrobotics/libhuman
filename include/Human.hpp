@@ -16,13 +16,26 @@
 #include <dart/collision/CollisionGroup.hpp>
 #include <dart/dart.hpp>
 
+#include "HumanHand.h"
+
 namespace human {
 
 /// URI to retrieve Human URDF from.
-extern const dart::common::Uri humanUrdfUri;
-
-// URI to retrieve Human_short URDF from
-extern const dart::common::Uri shortUrdfUri;
+extern dart::common::Uri defaultPRLUrdfUri;
+/// URI to retrieve Human SRDF from.
+extern dart::common::Uri defaultPRLSrdfUri;
+/// URI to retrieve visual Human URDF from.
+extern dart::common::Uri defaultVisPRLUrdfUri;
+/// URI to retrieve visual Human SRDF from.
+extern dart::common::Uri defaultVisPRLSrdfUri;
+/// URI to retrieve Human_short URDF from
+extern dart::common::Uri defaultICAROSUrdfUri;
+/// URI to retrieve Human_short SRDF from.
+extern dart::common::Uri defaultICAROSSrdfUri;
+/// URI to retrieve visual human_short URDF from
+extern dart::common::Uri defaultVisICAROSUrdfUri;
+/// URI to retrieve visual human_short SRDF from
+extern dart::common::Uri defaultVisICAROSSrdfUri;
 
 /// URI to retrieve named arm configurations from.
 extern const dart::common::Uri namedConfigurationsUri;
@@ -30,6 +43,8 @@ extern const dart::common::Uri namedConfigurationsUri;
 class Human final : public aikido::robot::Robot
 {
 public:
+  const std::chrono::milliseconds threadExecutionCycle{10};
+
   // Expose base class functions
   using aikido::robot::Robot::getMetaSkeleton;
   using aikido::robot::Robot::getStateSpace;
@@ -44,14 +59,32 @@ public:
   /// \param[in] retriever Resource retriever for retrieving human.
   Human(
       aikido::planner::WorldPtr env,
+      bool simulation,
       std::string modelSrc,
       aikido::common::RNG::result_type rngSeed = std::random_device{}(),
-      const dart::common::Uri& humanUrdfUri = humanUrdfUri,
-      const dart::common::Uri& shortUrdfUri = shortUrdfUri,
+      const std::string &endEffectorName = "human/right_hand",
+      const std::string &armTrajectoryExecutorName = "rewd_trajectory_controller",
+      const ::ros::NodeHandle *node = nullptr,
       const dart::common::ResourceRetrieverPtr& retriever
       = std::make_shared<aikido::io::CatkinResourceRetriever>());
 
+  Human(aikido::planner::WorldPtr env,
+        bool simulation,
+        std::string name,
+        const Eigen::Isometry3d &transform,
+        bool vis,
+        std::string modelSrc,
+        aikido::common::RNG::result_type rngSeed = std::random_device{}(),
+        const std::string &endEffectorName = "human/right_hand",
+        const std::string &armTrajectoryExecutorName = "rewd_trajectory_controller",
+        const ::ros::NodeHandle *node = nullptr,
+        const dart::common::ResourceRetrieverPtr& retriever
+        = std::make_shared<aikido::io::CatkinResourceRetriever>());
+
   virtual ~Human() = default;
+
+  /// Creates and returns a trajectory executor.
+  std::shared_ptr<aikido::control::TrajectoryExecutor> createTrajectoryExecutor();
 
   // Documentation inherited.
   std::future<void> executeTrajectory(
@@ -100,8 +133,11 @@ public:
   /// Get the world
   aikido::planner::WorldPtr getWorld();
 
+  /// Runs step with current time.
+  void update();
+
   /// Get the right arm
-  dart::dynamics::MetaSkeletonPtr getRightArm();
+  aikido::robot::ConcreteManipulatorPtr getRightArm();
 
   /// Get the left arm
   dart::dynamics::MetaSkeletonPtr getLeftArm();
@@ -162,6 +198,19 @@ private:
       const std::string& armName,
       const dart::common::ResourceRetrieverPtr& retriever);
 
+  /// Constructs the arm and the hand, and the manipulator.
+  /// \param armName Name of the arm.
+  /// \param retriever Resource retriever.
+  /// \param executor Trajectory executor for the arm.
+  /// \param collisionDetector Collision detector for the manipulator.
+  /// \param selfCollisionFilter self collision filter for the manipulator.
+  aikido::robot::ConcreteManipulatorPtr configureRightArm(const std::string &armName,
+                                                          const dart::common::ResourceRetrieverPtr &retriever,
+                                                          const aikido::control::TrajectoryExecutorPtr &executor,
+                                                          dart::collision::CollisionDetectorPtr collisionDetector,
+                                                          const std::shared_ptr<dart::collision::BodyNodeCollisionFilter> &
+                                                              selfCollisionFilter);
+
   // Private helper for common IK logic between left/right arm.
   std::vector<std::pair<Eigen::VectorXd, double>> computeIK(
     const Eigen::Isometry3d& target,
@@ -201,8 +250,34 @@ private:
     const aikido::constraint::TestablePtr constraint,
     aikido::statespace::dart::MetaSkeletonStateSpacePtr stateSpace);
 
+  /// mHuman is a wrapper around the meta skeleton
+  aikido::robot::ConcreteRobotPtr mHuman;
+
+  dart::dynamics::SkeletonPtr mHumanSkeleton;
+
+
+  /// ROS node associated with this robot
+  std::unique_ptr<::ros::NodeHandle> mNode;
+
+  /// Trajectory executor
+  std::shared_ptr<aikido::control::TrajectoryExecutor> mTrajectoryExecutor;
+
+  // Name of the End Effector in the URDF
+  // might differ for different human configurations
+  std::string mEndEffectorName;
+  std::string mHandBaseName;
+  std::string mArmBaseName;
+  std::string mArmEndName;
+
+  // The hand
+  HumanHandPtr mHand;
+
   // Correction transform to place human "right side up".
   Eigen::Isometry3d mCorrectionTransform;
+
+  bool mSimulation;
+
+  std::string mArmTrajectoryExecutorName;
 
   /// Random generator
   aikido::common::RNGWrapper<std::mt19937> mRng;
@@ -226,13 +301,18 @@ private:
   dart::dynamics::InverseKinematicsPtr mLeftIk;
 
   /// Human's right arm
-  dart::dynamics::MetaSkeletonPtr mRightArm;
+  aikido::robot::ConcreteManipulatorPtr mRightArm;
   aikido::statespace::dart::MetaSkeletonStateSpacePtr mRightArmSpace;
+//  dart::dynamics::MetaSkeletonPtr mRightArm;
+//  aikido::statespace::dart::MetaSkeletonStateSpacePtr mRightArmSpace;
   dart::dynamics::BodyNodePtr mRightHand;
   dart::dynamics::InverseKinematicsPtr mRightIk;
 
   /// Human concrete robot
   aikido::robot::ConcreteRobotPtr mRobot;
+
+  /// For trajectory executions
+  std::unique_ptr<aikido::common::ExecutorThread> mThread;
 };
 
 } // namespace human

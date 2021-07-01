@@ -57,7 +57,7 @@ endif()
 
 set(sources
   src/Human.cpp
-)
+        include/HumanHand.h include/HumanHandKinematicsSimulationPositionCommandExecutor.h src/HumanHandKinematicsSimulationPositionCommandExecutor.cpp src/HumanHand.cpp)
 
 add_library(libhuman SHARED ${sources})
 

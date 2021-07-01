@@ -49,7 +49,7 @@ int main(int argc, char** argv)
   // Load the human.
   ROS_INFO("Loading Human.");
   std::string modelSrc = "icaros";
-  human::Human human(env, modelSrc);
+  human::Human human(env, true, modelSrc);
 
   // Set pose of human to "face" table.
   Eigen::Isometry3d humanPose = Eigen::Isometry3d::Identity();
@@ -136,14 +136,14 @@ int main(int argc, char** argv)
   // Create self-collision constraint.
   aikido::constraint::TestablePtr selfCollConstraint =
     human.getSelfCollisionConstraint(
-      human.getRightArmSpace(), human.getRightArm());
+      human.getRightArmSpace(), human.getRightArm()->getMetaSkeleton());
 
   // Sample from TSR.
   std::vector<std::pair<Eigen::VectorXd, double>> tsrSamples
     = human.sampleRightTSR(sodaTSRs.at(0), 30, selfCollConstraint);
 
   // Set sample.
-  human.getRightArm()->setPositions(tsrSamples.at(0).first);
+  human.getRightArm()->getMetaSkeleton()->setPositions(tsrSamples.at(0).first);
 
   auto testState = human.getRightArmSpace()->createState();
   human.getRightArmSpace()
