@@ -204,9 +204,9 @@ Human::Human(
   mTrajectoryExecutor = createTrajectoryExecutor();
 
   // Setting arm base and end names
-  mArmBaseName = "human/shoulder_center";
-  mArmEndName = "human/right_wrist";
-  mHandBaseName = "human/right_hand";
+  mArmBaseName = "Chest";
+  mArmEndName = "RWrist";
+  mHandBaseName = "RHand3";
 
   // Setup the arm
   mRightArm = configureRightArm(
@@ -380,9 +380,9 @@ Human::Human(aikido::planner::WorldPtr env,
   mTrajectoryExecutor = createTrajectoryExecutor();
 
   // Setting arm base and end names
-  mArmBaseName = "human/shoulder_center";
-  mArmEndName = "human/right_wrist";
-  mHandBaseName = "human/right_hand";
+  mArmBaseName = "Chest";
+  mArmEndName = "RWrist";
+  mHandBaseName = "RHand3";
 
   // Setup the arm
   mRightArm = configureRightArm(
@@ -437,52 +437,47 @@ std::shared_ptr<aikido::control::TrajectoryExecutor> Human::createTrajectoryExec
 
 //==============================================================================
 std::future<void> Human::executeTrajectory(const TrajectoryPtr &trajectory) const {
-  // TODO!
-  throw std::runtime_error("Human -> executeTrajectory() not implemented!");
+  return mTrajectoryExecutor->execute(trajectory);
 }
 
 //==============================================================================
 boost::optional<Eigen::VectorXd> Human::getNamedConfiguration(
     const std::string &name) const {
-  // TODO!
-  throw std::runtime_error("Human -> getNamedConfiguration() not implemented!");
+  return mHuman->getNamedConfiguration(name);
 }
 
 //==============================================================================
 void Human::setNamedConfigurations(
     std::unordered_map<std::string, const Eigen::VectorXd> namedConfigurations) {
-  // TODO!
-  throw std::runtime_error("Human -> setNamedConfiguration() not implemented!");
+  mHuman->setNamedConfigurations(namedConfigurations);
 }
 
 //==============================================================================
 std::string Human::getName() const {
-  // TODO!
-  throw std::runtime_error("Human -> getName() not implemented!");
+  return mHuman->getName();
 }
 
 //==============================================================================
 dart::dynamics::ConstMetaSkeletonPtr Human::getMetaSkeleton() const {
-  // TODO!
-  throw std::runtime_error("Human -> getMetaSkeleton() not implemented!");
+  return mHuman->getMetaSkeleton();
 }
 
 //==============================================================================
 ConstMetaSkeletonStateSpacePtr Human::getStateSpace() const {
-  // TODO!
-  throw std::runtime_error("Human -> getStateSpace() not implemented!");
+  return mHuman->getStateSpace();
 }
 
 //==============================================================================
 void Human::setRoot(Robot *robot) {
-  // TODO!
-  throw std::runtime_error("Human -> setRoot() not implemented!");
+  mHuman->setRoot(robot);
 }
 
 //==============================================================================
 void Human::step(const std::chrono::system_clock::time_point &timepoint) {
   // TODO!
-  throw std::runtime_error("Human -> step() not implemented!");
+  std::lock_guard<std::mutex> lock(mRobotSkeleton->getMutex());
+  mRightArm->step(timepoint);
+  mTrajectoryExecutor->step(timepoint);
 }
 
 //==============================================================================
@@ -510,8 +505,7 @@ TestablePtr Human::getFullCollisionConstraint(
     const ConstMetaSkeletonStateSpacePtr &space,
     const dart::dynamics::MetaSkeletonPtr &metaSkeleton,
     const CollisionFreePtr &collisionFree) const {
-  // TODO!
-  throw std::runtime_error("Human -> getFullCollisionConstraint() not implemented!");
+  return mHuman->getFullCollisionConstraint(space, metaSkeleton, collisionFree);
 }
 
 //==============================================================================

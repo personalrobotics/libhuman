@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+
+<robot name="human_model" xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface">
+  <group name="human_manipulator">
+    <chain base_link="Chest" tip_link="RWrist"/>
+  </group>
+
+</robot>

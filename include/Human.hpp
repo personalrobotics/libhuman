@@ -62,7 +62,7 @@ public:
       bool simulation,
       std::string modelSrc,
       aikido::common::RNG::result_type rngSeed = std::random_device{}(),
-      const std::string &endEffectorName = "human/right_hand",
+      const std::string &endEffectorName = "RHand3",
       const std::string &armTrajectoryExecutorName = "rewd_trajectory_controller",
       const ::ros::NodeHandle *node = nullptr,
       const dart::common::ResourceRetrieverPtr& retriever
@@ -75,7 +75,7 @@ public:
         bool vis,
         std::string modelSrc,
         aikido::common::RNG::result_type rngSeed = std::random_device{}(),
-        const std::string &endEffectorName = "human/right_hand",
+        const std::string &endEffectorName = "RHand3",
         const std::string &armTrajectoryExecutorName = "rewd_trajectory_controller",
         const ::ros::NodeHandle *node = nullptr,
         const dart::common::ResourceRetrieverPtr& retriever
