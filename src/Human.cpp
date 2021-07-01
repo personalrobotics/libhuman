@@ -205,7 +205,13 @@ Human::Human(
 
   // Setting arm base and end names
   mArmBaseName = "Chest";
-  mArmEndName = "RWrist";
+
+  if (modelSrc == "icaros") {
+      mArmEndName = "RWrist";
+  } else if (modelSrc == "prl") {
+      mArmEndName = "RHand2";
+  }
+
   mHandBaseName = "RHand3";
 
   // Setup the arm
@@ -381,7 +387,13 @@ Human::Human(aikido::planner::WorldPtr env,
 
   // Setting arm base and end names
   mArmBaseName = "Chest";
-  mArmEndName = "RWrist";
+
+  if (modelSrc == "icaros") {
+      mArmEndName = "RWrist";
+  } else if (modelSrc == "prl") {
+      mArmEndName = "RHand2";
+  }
+
   mHandBaseName = "RHand3";
 
   // Setup the arm
