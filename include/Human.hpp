@@ -15,6 +15,7 @@
 #include <dart/collision/CollisionDetector.hpp>
 #include <dart/collision/CollisionGroup.hpp>
 #include <dart/dart.hpp>
+#include <aikido/planner/kunzretimer/KunzRetimer.hpp>
 
 #include "HumanHand.h"
 
@@ -39,6 +40,22 @@ extern dart::common::Uri defaultVisICAROSSrdfUri;
 
 /// URI to retrieve named arm configurations from.
 extern const dart::common::Uri namedConfigurationsUri;
+
+/// Human-specific defaults for the KunzRetimer.
+// Default kunz parameters
+    constexpr static double DEFAULT_KUNZ_DEVIATION = 1e-3;
+    constexpr static double DEFAULT_KUNZ_STEP = 1e-3;
+    struct KunzParams : aikido::planner::kunzretimer::KunzRetimer::Params
+    {
+        KunzParams(
+                double _maxDeviation = DEFAULT_KUNZ_DEVIATION,
+                double _timeStep = DEFAULT_KUNZ_STEP)
+                : aikido::planner::kunzretimer::KunzRetimer::Params(
+                _maxDeviation, _timeStep)
+        {
+            // Do nothing.
+        }
+    };
 
 class Human final : public aikido::robot::Robot
 {
@@ -85,6 +102,41 @@ public:
 
   /// Creates and returns a trajectory executor.
   std::shared_ptr<aikido::control::TrajectoryExecutor> createTrajectoryExecutor();
+
+  /// \copydoc ConcreteRobot::postProcessPath.
+  template <typename PostProcessor>
+  aikido::trajectory::UniqueSplinePtr postProcessPath(
+          const aikido::trajectory::Trajectory* path,
+          const aikido::constraint::TestablePtr& constraint,
+          const typename PostProcessor::Params& postProcessorParams,
+          const Eigen::VectorXd& velocityLimits = Eigen::Vector6d::Zero(),
+          const Eigen::VectorXd& accelerationLimits = Eigen::Vector6d::Zero())     {
+      // Don't plan above 70% hard velocity limit
+      // Unless requested explicitly
+      const double DEFAULT_LIMITS_BUFFER = 0.7;
+
+      bool velLimitsInvalid
+              = (velocityLimits.squaredNorm() == 0.0)
+                || velocityLimits.size() != getVelocityLimits().size();
+      auto sentVelocityLimits = velLimitsInvalid
+                                ? DEFAULT_LIMITS_BUFFER * getVelocityLimits()
+                                : velocityLimits;
+
+      bool accLimitsInvalid
+              = (accelerationLimits.squaredNorm() == 0.0)
+                || accelerationLimits.size() != getAccelerationLimits().size();
+      auto sentAccelerationLimits
+              = accLimitsInvalid ? DEFAULT_LIMITS_BUFFER * getAccelerationLimits()
+                                 : accelerationLimits;
+
+      std::cout<<getAccelerationLimits()<<std::endl;
+      return mHuman->postProcessPath<PostProcessor>(
+              sentVelocityLimits,
+              sentAccelerationLimits,
+              path,
+              constraint,
+              postProcessorParams);
+  }
 
   // Documentation inherited.
   std::future<void> executeTrajectory(
@@ -154,6 +206,12 @@ public:
   /// Get the left hand
   dart::dynamics::BodyNodePtr getLeftHand();
 
+  /// Compute velocity limits from the MetaSkeleton
+  Eigen::VectorXd getVelocityLimits() const;
+
+  /// Compute acceleration limits from the MetaSkeleton
+  Eigen::VectorXd getAccelerationLimits() const;
+
   /// Compute IK with left arm.
   std::vector<std::pair<Eigen::VectorXd, double>> computeLeftIK(
     const Eigen::Isometry3d& target,
@@ -183,6 +241,16 @@ public:
 
   // Set the full pose of the human.
   void setPlacementPose(const Eigen::Isometry3d& pose);
+
+    aikido::trajectory::TrajectoryPtr planRightArmToTSR(const aikido::constraint::dart::TSR &tsr,
+                                                        const aikido::constraint::dart::CollisionFreePtr &collisionFree,
+                                                        double timelimit, size_t maxNumTrials,
+                                                        const aikido::distance::ConfigurationRankerPtr &ranker);
+
+    aikido::trajectory::TrajectoryPtr planRightArmToTSR(std::shared_ptr<aikido::constraint::dart::TSR> &tsr,
+                                                        const aikido::constraint::dart::CollisionFreePtr &collisionFree,
+                                                        double timelimit, size_t maxNumTrials,
+                                                        const aikido::distance::ConfigurationRankerPtr &ranker);
 
 private:
   /// Schema description for named configurations YAML file.
@@ -313,6 +381,15 @@ private:
 
   /// For trajectory executions
   std::unique_ptr<aikido::common::ExecutorThread> mThread;
+
+    aikido::trajectory::TrajectoryPtr planToTSR(const aikido::statespace::dart::MetaSkeletonStateSpacePtr &space,
+                                                const dart::dynamics::MetaSkeletonPtr &metaSkeleton,
+                                                const dart::dynamics::BodyNodePtr &bn,
+                                                const aikido::constraint::dart::TSRPtr &tsr,
+                                                const aikido::constraint::dart::CollisionFreePtr &collisionFree,
+                                                double timelimit, size_t maxNumTrials,
+                                                const aikido::distance::ConfigurationRankerPtr &ranker);
+
 };
 
 } // namespace human

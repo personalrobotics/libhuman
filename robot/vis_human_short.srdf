@@ -2,7 +2,7 @@
 
 <robot name="human_model" xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface">
   <group name="human_manipulator">
-    <chain base_link="Chest" tip_link="RWrist"/>
+    <chain base_link="RCollar" tip_link="RWrist"/>
   </group>
 
 </robot>

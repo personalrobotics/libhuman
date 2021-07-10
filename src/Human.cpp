@@ -39,6 +39,7 @@ using dart::dynamics::InverseKinematicsPtr;
 using aikido::constraint::dart::CollisionFree;
 using aikido::constraint::dart::CollisionFreePtr;
 using aikido::constraint::dart::createSampleableBounds;
+using aikido::constraint::dart::TSRPtr;
 using aikido::constraint::Sampleable;
 using aikido::constraint::SampleGenerator;
 using aikido::constraint::TestablePtr;
@@ -46,7 +47,9 @@ using aikido::robot::ConcreteManipulatorPtr;
 using aikido::statespace::dart::ConstMetaSkeletonStateSpacePtr;
 using aikido::statespace::dart::MetaSkeletonStateSaver;
 using aikido::statespace::dart::MetaSkeletonStateSpace;
+using aikido::statespace::dart::MetaSkeletonStateSpacePtr;
 using aikido::trajectory::TrajectoryPtr;
+using aikido::trajectory::UniqueSplinePtr;
 
 dart::common::Uri defaultPRLUrdfUri{"package://libhuman/robot/man1.urdf"};
 dart::common::Uri defaultPRLSrdfUri{"package://libhuman/robot/man1.srdf"};
@@ -204,7 +207,7 @@ Human::Human(
   mTrajectoryExecutor = createTrajectoryExecutor();
 
   // Setting arm base and end names
-  mArmBaseName = "Chest";
+  mArmBaseName = "RCollar";
 
   if (modelSrc == "icaros") {
       mArmEndName = "RWrist";
@@ -216,7 +219,7 @@ Human::Human(
 
   // Setup the arm
   mRightArm = configureRightArm(
-      "human_right_arm",
+      "R", //human_right_arm
       retriever,
       mTrajectoryExecutor,
       collisionDetector,
@@ -236,8 +239,8 @@ Human::Human(
 
   // Used for IK collision checking.
   BodyNodePtr hipsNode = getBodyNodeOrThrow(mRobotSkeleton, "Hips");
-  BodyNodePtr chestNode = getBodyNodeOrThrow(mRobotSkeleton, "Chest");
-  mTorso = Chain::create(hipsNode, chestNode, "Torso");
+  BodyNodePtr collarNode = getBodyNodeOrThrow(mRobotSkeleton, "RCollar");
+  mTorso = Chain::create(hipsNode, collarNode, "Torso");
 
   // TODO: Enable this.
   configureArm("L", retriever);
@@ -386,7 +389,7 @@ Human::Human(aikido::planner::WorldPtr env,
   mTrajectoryExecutor = createTrajectoryExecutor();
 
   // Setting arm base and end names
-  mArmBaseName = "Chest";
+  mArmBaseName = "RCollar";
 
   if (modelSrc == "icaros") {
       mArmEndName = "RWrist";
@@ -398,7 +401,7 @@ Human::Human(aikido::planner::WorldPtr env,
 
   // Setup the arm
   mRightArm = configureRightArm(
-      "human_right_arm",
+      "R", //human_right_arm
       retriever,
       mTrajectoryExecutor,
       collisionDetector,
@@ -418,8 +421,8 @@ Human::Human(aikido::planner::WorldPtr env,
 
   // Used for IK collision checking.
   BodyNodePtr hipsNode = getBodyNodeOrThrow(mRobotSkeleton, "Hips");
-  BodyNodePtr chestNode = getBodyNodeOrThrow(mRobotSkeleton, "Chest");
-  mTorso = Chain::create(hipsNode, chestNode, "Torso");
+  BodyNodePtr collarNode = getBodyNodeOrThrow(mRobotSkeleton, "RCollar");
+  mTorso = Chain::create(hipsNode, collarNode, "Torso");
 
   // TODO: Enable this.
   configureArm("L", retriever);
@@ -581,6 +584,15 @@ aikido::robot::ConcreteManipulatorPtr Human::configureRightArm(const std::string
                                       mNode.get(),
                                       retriever);
 
+      // Hardcoding to acceleration limits used in OpenRAVE
+      // This is necessary because ADA is loaded from URDF, which
+      // provides no means of specifying acceleration limits
+      // TODO : update acceleration limits by checking Kinova spec.
+      arm->setAccelerationLowerLimits(
+              Eigen::VectorXd::Constant(arm->getNumDofs(), -2.0));
+      arm->setAccelerationUpperLimits(
+              Eigen::VectorXd::Constant(arm->getNumDofs(), 2.0));
+
   auto manipulatorRobot = std::make_shared<aikido::robot::ConcreteRobot>(
       armName,
       arm,
@@ -591,6 +603,23 @@ aikido::robot::ConcreteManipulatorPtr Human::configureRightArm(const std::string
       selfCollisionFilter);
 
   auto manipulator = std::make_shared<aikido::robot::ConcreteManipulator>(manipulatorRobot, mHand);
+
+  //Grab the hand
+  std::stringstream handName;
+  handName << armName << "Hand3";
+  auto handNode = getBodyNodeOrThrow(mRobotSkeleton, handName.str());
+
+  // Create an IK solver.
+  InverseKinematicsPtr ikSolver = InverseKinematics::create(handNode);
+  ikSolver->setDofs(arm->getDofs());
+
+  if(armName == "R"){
+      //mRightArmSpace = armSpace;
+      mRightHand = handNode;
+      mRightIk = ikSolver;
+  }
+
+
   return manipulator;
 }
 
@@ -634,6 +663,63 @@ std::vector<std::pair<Eigen::VectorXd, double>> Human::computeRightIK(
       constraint);
 }
 
+//==============================================================================
+TrajectoryPtr Human::planToTSR(
+        const MetaSkeletonStateSpacePtr& space,
+        const dart::dynamics::MetaSkeletonPtr& metaSkeleton,
+        const dart::dynamics::BodyNodePtr& bn,
+        const TSRPtr& tsr,
+        const CollisionFreePtr& collisionFree,
+        double timelimit,
+        size_t maxNumTrials,
+        const aikido::distance::ConfigurationRankerPtr& ranker)
+    {
+
+        return mHuman->planToTSR(
+                space,
+                metaSkeleton,
+                bn,
+                tsr,
+                collisionFree,
+                timelimit,
+                maxNumTrials,
+                ranker);
+    }
+
+//==============================================================================
+TrajectoryPtr Human::planRightArmToTSR(
+        std::shared_ptr<aikido::constraint::dart::TSR> &tsr,    //const aikido::constraint::dart::TSR& tsr,
+        const aikido::constraint::dart::CollisionFreePtr& collisionFree,
+        double timelimit,
+        size_t maxNumTrials,
+        const aikido::distance::ConfigurationRankerPtr& ranker)
+
+
+    {
+        //auto goalTSR = std::make_shared<aikido::constraint::dart::TSR>(tsr);
+        std::cout<<"work"<<std::endl;
+        return planToTSR(
+                mRightArmSpace,
+                mRightArm->getMetaSkeleton(),
+                mHand->getEndEffectorBodyNode(),
+                tsr,    //goalTSR,
+                collisionFree,
+                timelimit,
+                maxNumTrials,
+                ranker);
+    }
+
+//==============================================================================
+    Eigen::VectorXd Human::getVelocityLimits() const
+    {
+        return mRightArm->getMetaSkeleton()->getVelocityUpperLimits();
+    }
+
+//==============================================================================
+    Eigen::VectorXd Human::getAccelerationLimits() const
+    {
+        return mRightArm->getMetaSkeleton()->getAccelerationUpperLimits();
+    }
 //==============================================================================
 
 std::vector<std::pair<Eigen::VectorXd, double>> Human::sampleLeftTSR(
@@ -888,3 +974,4 @@ void Human::filterSortSolutions(
 }
 
 } // ns
+

@@ -134,6 +134,20 @@ target_link_libraries(simple_load
 
 install(TARGETS simple_load RUNTIME DESTINATION bin)
 
+#===============================================================================
+# Basic scripts to play around with.
+
+add_executable(plan_to_tsr
+        script/plan_to_tsr.cpp)
+
+target_link_libraries(plan_to_tsr
+        ${DART_LIBRARIES}
+        ${aikido_LIBRARIES}
+        ${Boost_LIBRARIES}
+        libhuman)
+
+install(TARGETS plan_to_tsr RUNTIME DESTINATION bin)
+
 #================================================================================
 # Formatting
 #

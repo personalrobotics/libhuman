@@ -63,21 +63,21 @@
     <axis xyz="1 0 0"/>
     <parent link="Spine_0"/>
     <child link="Spine_1"/>
-    <limit effort="1" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
+    <limit effort="2000" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
   </joint>
   <joint name="JSpine_2" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="0 1 0"/>
     <parent link="Spine_1"/>
     <child link="Spine_2"/>
-    <limit effort="1" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
+    <limit effort="2000" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
   </joint>
   <joint name="JSpine" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="0 0 1"/>
     <parent link="Spine_2"/>
     <child link="Spine"/>
-    <limit effort="1" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
+    <limit effort="2000" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
   </joint>
   <joint name="JChest" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0.275888061853"/>
@@ -90,21 +90,21 @@
     <axis xyz="1 0 0"/>
     <parent link="Chest"/>
     <child link="Neck_0"/>
-    <limit effort="1" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
+    <limit effort="2000" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
   </joint>
   <joint name="JNeck_1" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="0 1 0"/>
     <parent link="Neck_0"/>
     <child link="Neck_1"/>
-    <limit effort="1" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
+    <limit effort="2000" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
   </joint>
   <joint name="JNeck_2" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="0 0 1"/>
     <parent link="Neck_1"/>
     <child link="Neck"/>
-    <limit effort="1" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
+    <limit effort="2000" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
   </joint>
   <!-- END NECK -->
   <joint name="JHead" type="fixed">
@@ -147,6 +147,7 @@
     <origin rpy="0 0 -1.57079632679" xyz="0 -0.181172520845 -0.00609526854636"/>
     <parent link="Chest"/>
     <child link="RCollar"/>
+    <limit effort="2000" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
   </joint>
   <!-- SHOULDER : spherical -->
   <joint name="JRShoulder_0" type="revolute">
@@ -154,21 +155,21 @@
     <axis xyz="0 1 0"/>
     <parent link="RCollar"/>
     <child link="RShoulder_0"/>
-    <limit effort="1" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
+    <limit effort="2000" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
   </joint>
   <joint name="JRShoulder_1" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="0 0 1"/>
     <parent link="RShoulder_0"/>
     <child link="RShoulder_1"/>
-    <limit effort="1" lower="-1.57079632679" upper="2.35619449019" velocity="1"/>
+    <limit effort="2000" lower="-1.57079632679" upper="2.35619449019" velocity="1"/>
   </joint>
   <joint name="JRShoulder" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="1 0 0"/>
     <parent link="RShoulder_1"/>
     <child link="RShoulder"/>
-    <limit effort="1" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
+    <limit effort="2000" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
   </joint>
   <!-- END SHOULDER -->
   <joint name="JRElbow" type="revolute">
@@ -176,33 +177,34 @@
     <axis xyz="0 0 1"/>
     <parent link="RShoulder"/>
     <child link="RElbow"/>
-    <limit effort="1" lower="0.0" upper="3.14159265359" velocity="1"/>
+    <limit effort="2000" lower="0.0" upper="3.14159265359" velocity="1"/>
   </joint>
   <joint name="JRWrist_0" type="revolute">
     <origin rpy="0 0 0" xyz="0.274149473988 0 0"/>
     <axis xyz="0 0 1"/>
     <parent link="RElbow"/>
     <child link="RWrist_0"/>
-    <limit effort="1" lower="-0.78539816339" upper="0.78539816339" velocity="1"/>
+    <limit effort="2000" lower="-0.78539816339" upper="0.78539816339" velocity="1"/>
   </joint>
   <joint name="JRWrist_1" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="0 1 0"/>
     <parent link="RWrist_0"/>
     <child link="RWrist_1"/>
-    <limit effort="1" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
+    <limit effort="2000" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
   </joint>
   <joint name="JRWrist" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="1 0 0"/>
     <parent link="RWrist_1"/>
     <child link="RWrist"/>
-    <limit effort="1" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
+    <limit effort="2000" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
   </joint>
   <joint name="JRHand3" type="fixed">
     <origin rpy="0 0 0" xyz="0.1 0 0"/>
     <parent link="RWrist"/>
     <child link="RHand3"/>
+    <limit effort="2000" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
   </joint>
 
   <link name="LCollar"/>
